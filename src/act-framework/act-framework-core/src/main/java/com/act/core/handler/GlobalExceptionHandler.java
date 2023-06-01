@@ -24,6 +24,8 @@ import java.util.stream.Collectors;
  * 全局异常拦截器
  */
 @SuppressWarnings("all")
+@RestControllerAdvice
+@RestController
 public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public AjaxResponse<Object> exceptionHandler(HttpServletRequest request, Exception e) {
