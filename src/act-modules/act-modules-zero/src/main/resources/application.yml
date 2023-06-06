@@ -13,9 +13,11 @@ spring:
     # 环境配置
     active: dev
   datasource:
-    url: "jdbc:mysql://www.autoct.top:33306/java_act?characterEncoding=utf-8"
-    username: "root"
-    password: "qwe123QWE"
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite::resource:db/starMap.sqlite
+#    url: "jdbc:mysql://www.autoct.top:33306/java_act?characterEncoding=utf-8"
+#    username: "root"
+#    password: "qwe123QWE"
   servlet:
     multipart:
       enabled: true

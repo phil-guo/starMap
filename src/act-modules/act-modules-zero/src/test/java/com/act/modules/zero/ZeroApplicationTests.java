@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
@@ -31,7 +32,8 @@ import java.util.ArrayList;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {ZeroApplication.class, ZeroApplicationTests.class,})
-@MapperScan({"com.act.modules.zero.mapper"})
+@ComponentScan(basePackages = {"com.act.modules.zero.*", "com.act.core.*"})
+@MapperScan({"com.act.modules.zero.internal.mapper"})
 @SuppressWarnings("all")
 class ZeroApplicationTests {
 
@@ -181,10 +183,8 @@ class ZeroApplicationTests {
 
     @Test
     public void SysUser_CreateOrEdit() throws InstantiationException, IllegalAccessException, FriendlyException {
-
         var request = new SysUserDTO();
-        request.setId(Long.valueOf(7L));
-        request.setUserName("phil");
+        request.setUserName("admin");
         request.setRoleId(Long.valueOf(1L));
         request.setPassword(StringExtensions.ToMd5("123qwe").toUpperCase());
         var one = userService.createOrEdit(request);

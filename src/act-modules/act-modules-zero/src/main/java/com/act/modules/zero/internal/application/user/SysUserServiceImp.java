@@ -53,7 +53,7 @@ public class SysUserServiceImp
             throw new FriendlyException("admin管理员不允许被修改");
 
         SysUser data = new SysUser();
-        if (request.getId() != null && request.getId() == 0) {
+        if ((request.getId() != null && request.getId() == 0) || request.getId() == null) {
             request.setPassword(StringExtensions.ToMd5(request.getPassword()));
             BeanUtilsExtensions.copyProperties(request, data);
             Table().insert(data);

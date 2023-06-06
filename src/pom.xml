@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.act</groupId>
-    <artifactId>act</artifactId>
+    <artifactId>src</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0</version>
     <name>act</name>

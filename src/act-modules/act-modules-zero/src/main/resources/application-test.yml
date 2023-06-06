@@ -13,9 +13,11 @@ spring:
     # 环境配置
     active: dev
   datasource:
-    url: "jdbc:mysql://www.autoct.top:33306/java_act?characterEncoding=utf-8"
-    username: "root"
-    password: "qwe123QWE"
+    url: jdbc:sqlite::resource:db/starMap.sqlite
+    driver-class-name: org.sqlite.JDBC
+#    url: "jdbc:mysql://www.autoct.top:33306/java_act?characterEncoding=utf-8"
+#    username: "root"
+#    password: "qwe123QWE"
 
 # mybatis-plus 配置
 mybatis-plus:
