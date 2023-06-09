@@ -1,4 +1,4 @@
-package com.act.modules.starmap.config;
+package com.act.startup.config;
 
 import com.act.core.interceptor.JWTInterceptor;
 import org.springframework.context.annotation.Bean;
@@ -7,6 +7,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@SuppressWarnings("all")
 public class InterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

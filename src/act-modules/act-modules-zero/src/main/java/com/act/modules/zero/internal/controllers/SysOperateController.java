@@ -1,13 +1,13 @@
 package com.act.modules.zero.internal.controllers;
 
+import com.act.modules.zero.internal.application.operate.SysOperateService;
+import com.act.modules.zero.internal.mapper.SysOperateMapper;
 import com.act.core.utils.AjaxResponse;
 import com.act.core.web.BaseController;
-import com.act.modules.zero.internal.application.operate.SysOperateService;
 import com.act.modules.zero.internal.application.operate.dto.GetMenuOfOperateByRoleRequest;
 import com.act.modules.zero.internal.application.operate.dto.MenuOfOperateRequest;
 import com.act.modules.zero.internal.application.operate.dto.SysOperateDTO;
 import com.act.modules.zero.internal.domain.SysOperate;
-import com.act.modules.zero.internal.mapper.SysOperateMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

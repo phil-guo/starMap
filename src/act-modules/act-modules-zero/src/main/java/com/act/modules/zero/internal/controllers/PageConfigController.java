@@ -1,9 +1,9 @@
 package com.act.modules.zero.internal.controllers;
 
+import com.act.modules.zero.internal.mapper.PageConfigMapper;
 import com.act.core.web.BaseController;
 import com.act.modules.zero.internal.application.pageConfig.dto.PageConfigDTO;
 import com.act.modules.zero.internal.domain.PageConfig;
-import com.act.modules.zero.internal.mapper.PageConfigMapper;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

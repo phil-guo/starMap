@@ -1,16 +1,16 @@
 package com.act.modules.zero.internal.application.user;
 
+import com.act.modules.zero.internal.application.user.dto.LoginDTO;
+import com.act.modules.zero.internal.application.user.dto.ResetPasswordRequest;
+import com.act.modules.zero.internal.application.user.dto.SysUserDTO;
+import com.act.modules.zero.internal.application.user.dto.UpdatePersonalInfoRequest;
+import com.act.modules.zero.internal.mapper.SysUserMapper;
 import com.act.core.application.ICurdAppService;
 import com.act.core.application.PageDto;
 import com.act.core.application.PagedResultDto;
 import com.act.core.utils.AjaxResponse;
 import com.act.core.utils.FriendlyException;
-import com.act.modules.zero.internal.application.user.dto.LoginDTO;
-import com.act.modules.zero.internal.application.user.dto.ResetPasswordRequest;
-import com.act.modules.zero.internal.application.user.dto.SysUserDTO;
-import com.act.modules.zero.internal.application.user.dto.UpdatePersonalInfoRequest;
 import com.act.modules.zero.internal.domain.SysUser;
-import com.act.modules.zero.internal.mapper.SysUserMapper;
 
 @SuppressWarnings("all")
 public interface SysUserService extends ICurdAppService<SysUser, SysUserDTO, SysUserMapper> {

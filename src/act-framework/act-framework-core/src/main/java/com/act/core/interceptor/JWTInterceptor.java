@@ -4,8 +4,6 @@ package com.act.core.interceptor;
 import com.act.core.utils.FriendlyException;
 import com.act.core.utils.JWTUtils;
 import com.github.benmanes.caffeine.cache.Cache;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

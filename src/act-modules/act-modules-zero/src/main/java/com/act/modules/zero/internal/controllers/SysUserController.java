@@ -1,5 +1,6 @@
 package com.act.modules.zero.internal.controllers;
 
+import com.act.modules.zero.internal.mapper.SysUserMapper;
 import com.act.core.utils.AjaxResponse;
 import com.act.core.utils.FriendlyException;
 import com.act.core.web.BaseController;
@@ -9,7 +10,6 @@ import com.act.modules.zero.internal.application.user.dto.ResetPasswordRequest;
 import com.act.modules.zero.internal.application.user.dto.SysUserDTO;
 import com.act.modules.zero.internal.application.user.dto.UpdatePersonalInfoRequest;
 import com.act.modules.zero.internal.domain.SysUser;
-import com.act.modules.zero.internal.mapper.SysUserMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

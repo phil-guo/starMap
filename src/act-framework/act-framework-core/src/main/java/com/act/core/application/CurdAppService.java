@@ -4,8 +4,6 @@ import com.act.core.domain.BaseEntity;
 import com.act.core.utils.BeanUtilsExtensions;
 import com.act.core.utils.FriendlyException;
 import com.act.core.utils.WrapperExtensions;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.base.MPJBaseMapper;
@@ -15,7 +13,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.ParameterizedType;
-import java.util.List;
 
 /**
  * @author phil.guo

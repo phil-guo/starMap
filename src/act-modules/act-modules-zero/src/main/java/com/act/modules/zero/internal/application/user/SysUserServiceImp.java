@@ -9,9 +9,7 @@ import com.act.modules.zero.internal.application.user.dto.*;
 import com.act.modules.zero.internal.domain.SysRole;
 import com.act.modules.zero.internal.domain.SysUser;
 import com.act.modules.zero.internal.mapper.SysUserMapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import lombok.var;
@@ -28,7 +26,6 @@ public class SysUserServiceImp
 
     @Override
     public PagedResultDto pageSearch(PageDto search) {
-
         var wrapper = WrapperExtensions.<SysUser>ConvertToWrapper(search.getDynamicFilters())
                 .selectAll(SysUser.class)
                 .selectAs(SysRole::getName, SysUserDTO::getRoleName)

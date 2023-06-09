@@ -1,5 +1,6 @@
 package com.act.modules.zero.internal.application.dictionary;
 
+import com.act.modules.zero.internal.mapper.SysDictionaryMapper;
 import com.act.core.application.ComBoxInfo;
 import com.act.core.application.CurdAppService;
 import com.act.core.utils.AjaxResponse;
@@ -8,7 +9,6 @@ import com.act.core.utils.FriendlyException;
 import com.act.core.utils.HttpContextUtils;
 import com.act.modules.zero.internal.application.dictionary.dto.SysDictionaryDTO;
 import com.act.modules.zero.internal.domain.SysDataDictionary;
-import com.act.modules.zero.internal.mapper.SysDictionaryMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.var;
 import org.springframework.stereotype.Service;

@@ -8,9 +8,7 @@ import com.act.core.domain.BaseEntity;
 import com.act.core.utils.AjaxResponse;
 import com.github.yulichang.base.MPJBaseMapper;
 import io.swagger.annotations.ApiOperation;
-import org.aspectj.weaver.loadtime.Aj;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 

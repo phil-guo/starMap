@@ -3,8 +3,6 @@ package com.act.modules.zero.internal.application.role.dto;
 import com.act.core.domain.BaseEntity;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Data
 @SuppressWarnings("all")
 public class SysRoleDTO extends BaseEntity<Long> {

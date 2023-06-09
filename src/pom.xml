@@ -13,6 +13,7 @@
     <modules>
         <module>act-framework</module>
         <module>act-modules</module>
+        <module>act-startup</module>
     </modules>
 
     <properties>

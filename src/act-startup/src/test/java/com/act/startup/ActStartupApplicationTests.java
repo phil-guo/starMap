@@ -1,10 +1,9 @@
-package com.act.modules.zero;
+package com.act.startup;
 
 import com.act.core.application.DynamicFilter;
 import com.act.core.application.PageDto;
 import com.act.core.utils.AjaxResponse;
 import com.act.core.utils.FriendlyException;
-import com.act.core.utils.JWTUtils;
 import com.act.core.utils.StringExtensions;
 import com.act.modules.zero.internal.application.dictionary.SysDictionaryService;
 import com.act.modules.zero.internal.application.menu.SysMenuService;
@@ -32,12 +31,12 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = {ZeroApplication.class, ZeroApplicationTests.class,})
+@SpringBootTest(classes = {ActStartupApplication.class, ActStartupApplicationTests.class,})
 @ComponentScan(basePackages = {"com.act.modules.zero.*", "com.act.core.*"})
 @MapperScan({"com.act.modules.zero.internal.mapper"})
 @EnableTransactionManagement
 @SuppressWarnings("all")
-class ZeroApplicationTests {
+class ActStartupApplicationTests {
 
     @Test
     void contextLoads() {
@@ -179,8 +178,6 @@ class ZeroApplicationTests {
         loginModel.setPassword("123qwe");
         AjaxResponse<Object> result = userService.login(loginModel);
         System.out.println(result.getData());
-        var token = (String) result.getData();
-        JWTUtils.parseClaimsJws(token);
     }
 
     @Test

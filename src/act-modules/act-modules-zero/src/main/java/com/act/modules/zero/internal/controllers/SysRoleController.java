@@ -1,12 +1,12 @@
 package com.act.modules.zero.internal.controllers;
 
+import com.act.modules.zero.internal.mapper.SysRoleMapper;
 import com.act.core.utils.AjaxResponse;
 import com.act.core.web.BaseController;
 import com.act.modules.zero.internal.application.role.SysRoleService;
 import com.act.modules.zero.internal.application.role.dto.SetRolePermissionRequest;
 import com.act.modules.zero.internal.application.role.dto.SysRoleDTO;
 import com.act.modules.zero.internal.domain.SysRole;
-import com.act.modules.zero.internal.mapper.SysRoleMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

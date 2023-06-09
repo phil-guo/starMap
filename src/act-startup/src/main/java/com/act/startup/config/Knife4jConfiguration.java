@@ -1,4 +1,4 @@
-package com.act.modules.zero.config;
+package com.act.startup.config;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
@@ -22,17 +22,18 @@ public class Knife4jConfiguration {
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(new ApiInfoBuilder()
                         //描述字段支持Markdown语法
-                        .title("Zero 模块接口文档")
-                        .description("# 用户权限管理")
+                        .title("act.startup 接口文档")
+                        .description("# 星图管理")
                         .termsOfServiceUrl("https://doc.xiaominfo.com/")
-                        .contact("1228115857@qq.com")
+//                        .contact("1228115857@qq.com")
                         .version("1.0")
                         .build())
                 //分组名称
-                .groupName("Zero")
+                .groupName("Startup")
                 .select()
                 //这里指定Controller扫描包路径
                 .apis(RequestHandlerSelectors.basePackage("com.act.modules.zero.internal.controllers"))
+                .apis(RequestHandlerSelectors.basePackage("com.act.modules.starmap.internal.controllers"))
                 //加了RestController,ApiOperation注解的类，才生成接口文档
                 .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))

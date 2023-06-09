@@ -2,7 +2,6 @@ package com.act.core.utils;
 
 import com.act.core.application.DynamicFilter;
 import com.act.core.domain.BaseEntity;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import lombok.var;
 
@@ -20,6 +19,9 @@ public class WrapperExtensions {
             Object val = new Object();
             if (oldVal.equals("true") || oldVal.equals("false"))
                 val = Boolean.parseBoolean(oldVal);
+            else {
+                val = oldVal;
+            }
 
             if (item.getOperate().equals("Like")) {
                 queryWrapper.like(item.getField(), val);
