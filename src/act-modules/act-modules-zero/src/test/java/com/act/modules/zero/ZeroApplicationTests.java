@@ -26,6 +26,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 @SpringBootTest(classes = {ZeroApplication.class, ZeroApplicationTests.class,})
 @ComponentScan(basePackages = {"com.act.modules.zero.*", "com.act.core.*"})
 @MapperScan({"com.act.modules.zero.internal.mapper"})
+@EnableTransactionManagement
 @SuppressWarnings("all")
 class ZeroApplicationTests {
 
@@ -184,7 +186,7 @@ class ZeroApplicationTests {
     @Test
     public void SysUser_CreateOrEdit() throws InstantiationException, IllegalAccessException, FriendlyException {
         var request = new SysUserDTO();
-        request.setUserName("admin");
+        request.setUserName("test");
         request.setRoleId(Long.valueOf(1L));
         request.setPassword(StringExtensions.ToMd5("123qwe").toUpperCase());
         var one = userService.createOrEdit(request);
