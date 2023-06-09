@@ -4,12 +4,17 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
+
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 @Configuration
 @EnableSwagger2WebMvc
@@ -32,13 +37,34 @@ public class Knife4jConfiguration {
                 .groupName("Startup")
                 .select()
                 //这里指定Controller扫描包路径
-                .apis(RequestHandlerSelectors.basePackage("com.act.modules.zero.internal.controllers"))
-                .apis(RequestHandlerSelectors.basePackage("com.act.modules.starmap.internal.controllers"))
+                .apis(basePackage("com.act.modules.zero.internal.controllers;com.act.modules.starmap.internal.controllers"))
                 //加了RestController,ApiOperation注解的类，才生成接口文档
                 .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 .paths(PathSelectors.any())
                 .build();
         return docket;
+    }
+
+    private Predicate<RequestHandler> basePackage(final String basePackage) {
+        return input -> declaringClass(input).map(handlerPackage(basePackage)::apply).orElse(true);
+    }
+
+    private Function<Class<?>, Boolean> handlerPackage(final String basePackage)     {
+        return input -> {
+            // 循环判断匹配
+            for (String strPackage : basePackage.split(";")) {
+                assert input != null;
+                boolean isMatch = input.getPackage().getName().startsWith(strPackage);
+                if (isMatch) {
+                    return true;
+                }
+            }
+            return false;
+        };
+    }
+
+    private Optional<Class<?>> declaringClass(RequestHandler input) {
+        return Optional.ofNullable(input.declaringClass());
     }
 }

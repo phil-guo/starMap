@@ -17,25 +17,25 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 public class BaseController<TEntity extends BaseEntity<Long>, TEntityDto extends BaseEntity<Long>, BP extends MPJBaseMapper<TEntity>> {
     @Autowired
-    private ICurdAppService<TEntity, TEntityDto, BP> _curd;
+    private ICurdAppService<TEntity, TEntityDto, BP> _crud;
 
     @ApiOperation(value = "分页查询")
     @PostMapping("pageSearch")
     public AjaxResponse<PagedResultDto> pageSearch(@RequestBody PageDto search) {
-        return new AjaxResponse<>(_curd.pageSearch(search));
+        return new AjaxResponse<>(_crud.pageSearch(search));
     }
 
     @ApiOperation(value = "创建或修改")
     @PostMapping("createOrEdit")
     public AjaxResponse<Object> createOrEdit(@RequestBody TEntityDto model) throws InstantiationException, IllegalAccessException {
-        return new AjaxResponse<>(_curd.createOrEdit(model));
+        return new AjaxResponse<>(_crud.createOrEdit(model));
     }
 
     @ApiOperation(value = "删除")
     @PostMapping("remove")
     public AjaxResponse<Object> remove(long id) {
         try {
-            _curd.delete(id);
+            _crud.delete(id);
             return new AjaxResponse<>("删除成功");
         } catch (Exception exception) {
             return new AjaxResponse<>(exception.getMessage());
@@ -46,7 +46,7 @@ public class BaseController<TEntity extends BaseEntity<Long>, TEntityDto extends
     @PostMapping("removes")
     public AjaxResponse<Object> removes(RemovesDTO ids) {
         try {
-            _curd.removeBatchByIds(ids.getIds());
+            _crud.removeBatchByIds(ids.getIds());
             return new AjaxResponse<>("删除成功");
         } catch (Exception exception) {
             return new AjaxResponse<>(exception.getMessage());
