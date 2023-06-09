@@ -11,6 +11,7 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import lombok.var;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.lang.reflect.ParameterizedType;
 
@@ -18,6 +19,7 @@ import java.lang.reflect.ParameterizedType;
  * @author phil.guo
  */
 @SuppressWarnings("all")
+@Service
 public abstract class CurdAppService<TEntity extends BaseEntity<Long>, TEntityDto extends BaseEntity<Long>, BP extends MPJBaseMapper<TEntity>>
         extends ServiceImpl<BP, TEntity>
         implements ICurdAppService<TEntity, TEntityDto, BP> {
