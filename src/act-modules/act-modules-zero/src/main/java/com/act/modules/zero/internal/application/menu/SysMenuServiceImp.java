@@ -199,11 +199,15 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
             return null;
 
         var data = new SysMenu();
-        if (request.getId() > 0) {
+        if (request.getId() != null && request.getId() > 0) {
             data = Table().selectById(request.getId());
             if (!data.getName().equals(request.getName()) || !data.getKey().equals(request.getKey())) {
                 var oldPage = _page.Table().selectOne(new LambdaQueryWrapper<Page>()
                         .eq(Page::getKey, data.getKey()));
+
+                if (oldPage == null)
+                    throw new FriendlyException("原页面为空，请检查Key的配置！");
+
                 var newPage = new Page();
                 newPage.setId(oldPage.getId());
                 newPage.setKey(request.getKey());
@@ -220,8 +224,9 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
             updateById(data);
         } else {
             var lastMenu = Table().selectOne(new LambdaQueryWrapper<SysMenu>()
+                    .last("limit 1")
                     .orderBy(true, false, SysMenu::getId));
-            if (lastMenu != null && request.getId() == 0)
+            if (lastMenu != null && (request.getId() == null || request.getId() == 0))
                 request.setSort(lastMenu.AddOperateSort());
 
             var key = StringUtils.isEmpty(request.getKey()) ? "" : request.getKey();

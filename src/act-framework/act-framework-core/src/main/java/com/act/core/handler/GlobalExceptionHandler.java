@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
             String msg = errors.get(0).getDefaultMessage();//获取自错误信息
             return new AjaxResponse<>(msg, -1);//将具体错误信息设置到msg中返回
         } else {
-            return new AjaxResponse<>(Arrays.stream(e.getStackTrace()).findFirst().toString(), -1);//将具体错误信息设置到msg中返回
+            return new AjaxResponse<>(e.getMessage().toString(), -1);//将具体错误信息设置到msg中返回
         }
     }
 

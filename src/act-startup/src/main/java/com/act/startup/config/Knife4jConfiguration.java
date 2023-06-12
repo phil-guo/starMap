@@ -27,7 +27,7 @@ public class Knife4jConfiguration {
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(new ApiInfoBuilder()
                         //描述字段支持Markdown语法
-                        .title("act.startup 接口文档")
+                        .title("星图 接口文档")
                         .description("# 星图管理")
                         .termsOfServiceUrl("https://doc.xiaominfo.com/")
 //                        .contact("1228115857@qq.com")
