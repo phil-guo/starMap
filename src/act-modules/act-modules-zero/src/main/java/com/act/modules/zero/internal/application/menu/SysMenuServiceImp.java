@@ -209,16 +209,15 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
                 newPage.setKey(request.getKey());
                 newPage.setName(request.getName());
                 _page.updateById(newPage);
-            } else {
-                data.setOperates(request.getOperates());
-                data.setParentId(request.getParentId());
-                data.setName(request.getName());
-                data.setLevel(request.getLevel());
-                data.setUrl(request.getUrl());
-                data.setIcon(request.getIcon());
-                data.setIsLeftShow(request.getIsLeftShow());
-                updateById(data);
             }
+            data.setOperates(request.getOperates());
+            data.setParentId(request.getParentId());
+            data.setName(request.getName());
+            data.setLevel(request.getLevel());
+            data.setUrl(request.getUrl());
+            data.setIcon(request.getIcon());
+            data.setIsLeftShow(request.getIsLeftShow());
+            updateById(data);
         } else {
             var lastMenu = Table().selectOne(new LambdaQueryWrapper<SysMenu>()
                     .orderBy(true, false, SysMenu::getId));
