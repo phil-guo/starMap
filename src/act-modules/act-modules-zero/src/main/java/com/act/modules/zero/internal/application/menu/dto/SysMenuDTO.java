@@ -26,7 +26,7 @@ public class SysMenuDTO extends BaseEntity<Long> {
 
     private String key;
 
-    private int isLeftShow;
+    private Boolean isLeftShow;
 
     private List<SysMenuDTO> children = new ArrayList<>();
 }

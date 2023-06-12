@@ -44,7 +44,7 @@ public class BaseController<TEntity extends BaseEntity<Long>, TEntityDto extends
 
     @ApiOperation(value = "批量删除")
     @PostMapping("removes")
-    public AjaxResponse<Object> removes(RemovesDTO ids) {
+    public AjaxResponse<Object> removes(@RequestBody RemovesDTO ids) {
         try {
             _crud.removeBatchByIds(ids.getIds());
             return new AjaxResponse<>("删除成功");

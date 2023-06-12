@@ -37,7 +37,7 @@ public class SysMenu extends BaseEntity<Long> {
     private String key;
 
     @TableField("isLeftShow")
-    private int isLeftShow = 0;
+    private Boolean isLeftShow = false;
 
     public int AddOperateSort() {
         sort += 1;
