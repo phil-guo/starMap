@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.act.modules.starmap.*","com.act.modules.zero.*", "com.act.core.*", "com.act.startup.*"})
-@MapperScan({"com.act.modules.zero.internal.mapper"})
+@ComponentScan(basePackages = {"com.act.modules.starmap.*", "com.act.modules.zero.*", "com.act.core.*", "com.act.startup.*"})
+@MapperScan(basePackages = {"com.act.modules.zero.internal.mapper","com.act.modules.starmap.internal.mapper"})
 public class ActStartupApplication {
     public static void main(String[] args) {
         SpringApplication.run(ActStartupApplication.class, args);
