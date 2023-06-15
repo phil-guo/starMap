@@ -13,6 +13,8 @@
     <version>1.0.0</version>
     <name>act-startup</name>
     <description>act-startup</description>
+    <packaging>pom</packaging>
+
     <properties>
         <java.version>1.8</java.version>
     </properties>
