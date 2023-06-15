@@ -24,7 +24,6 @@
     <groupId>com.act.framework.core</groupId>
     <artifactId>act-framework-core</artifactId>
     <version>1.0.0</version>
-    <packaging>pom</packaging>
     <dependencies>
 
         <!--redis-->
