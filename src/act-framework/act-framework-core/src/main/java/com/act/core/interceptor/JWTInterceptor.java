@@ -24,7 +24,8 @@ public class JWTInterceptor implements HandlerInterceptor {
         }
 
         //获取请求头部信息
-        var token = request.getHeader("Authorization").replace("Bearer ", "");
+        var token = request.getHeader("Authorization");
+        token = token.replace("Bearer ", "");
         if (token == null)
             throw new FriendlyException("Authorization 不能为空！", HttpStatus.UNAUTHORIZED.value());
 

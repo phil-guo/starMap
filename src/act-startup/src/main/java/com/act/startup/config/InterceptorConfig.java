@@ -20,7 +20,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
                         "/error",
                         "/2023/**",
                         "/2024/**",
-                        "/2025/**")
+                        "/2025/**",
+                        "/favicon.ico")
                 .addPathPatterns("/**");
     }
 
