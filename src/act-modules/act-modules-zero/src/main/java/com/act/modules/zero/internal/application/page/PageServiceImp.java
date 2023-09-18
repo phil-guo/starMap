@@ -25,6 +25,8 @@ public class PageServiceImp extends CurdAppService<Page, PageDTO, PageMapper> im
 
     public GetPageDetailDTO getPageDetail(String key) {
 
+        var result = new GetPageDetailDTO();
+        var pageConfigDTO = new PageConfigDTO();
         var page = getOne(new LambdaQueryWrapper<Page>()
                 .eq(Page::getKey, key));
 
@@ -34,12 +36,13 @@ public class PageServiceImp extends CurdAppService<Page, PageDTO, PageMapper> im
         var pageConfig = _pageConfig.getOne(new LambdaQueryWrapper<PageConfig>()
                 .eq(PageConfig::getPageId, page.getId()));
 
-        var pageConfigDTO = new PageConfigDTO();
+        if(pageConfig==null)
+            return result;
+
         BeanUtilsExtensions.copyProperties(pageConfig, pageConfigDTO);
         if (pageConfigDTO != null)
             pageConfigDTO.setKey(page.getKey());
 
-        var result = new GetPageDetailDTO();
         result.setPageConfigs(pageConfigDTO);
         return result;
     }
