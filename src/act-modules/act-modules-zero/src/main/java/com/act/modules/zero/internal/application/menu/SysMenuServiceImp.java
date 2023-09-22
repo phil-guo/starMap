@@ -23,6 +23,7 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -193,6 +194,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
     }
 
     @Override
+    @Transactional
     public SysMenuDTO createOrEdit(SysMenuDTO request) throws FriendlyException {
 
         if (request == null)
@@ -222,6 +224,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
             data.setIcon(request.getIcon());
             data.setIsLeftShow(request.getIsLeftShow());
             updateById(data);
+
         } else {
             var lastMenu = Table().selectOne(new LambdaQueryWrapper<SysMenu>()
                     .last("limit 1")
