@@ -1,12 +1,9 @@
 package com.act.modules.zero.internal.application.dictionary;
 
+import com.act.core.utils.*;
 import com.act.modules.zero.internal.mapper.SysDictionaryMapper;
 import com.act.core.application.ComBoxInfo;
 import com.act.core.application.CurdAppService;
-import com.act.core.utils.AjaxResponse;
-import com.act.core.utils.BeanUtilsExtensions;
-import com.act.core.utils.FriendlyException;
-import com.act.core.utils.HttpContextUtils;
 import com.act.modules.zero.internal.application.dictionary.dto.SysDictionaryDTO;
 import com.act.modules.zero.internal.domain.SysDataDictionary;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -34,7 +31,7 @@ public class SysDictionaryServiceImp extends CurdAppService<SysDataDictionary, S
     public void delete(UUID id) throws FriendlyException {
         var entity = getById(id);
         var claimsUserInfo = HttpContextUtils.getUserContext();
-        if (entity.getIsBasicData() && claimsUserInfo.getUserId() != 1)
+        if (entity.getIsBasicData() && claimsUserInfo.getUserId() != StringExtensions.UUID_SUPER_ADMIN)
             throw new FriendlyException("非超级管理员不能删除基础数据");
         super.delete(id);
     }
@@ -42,7 +39,7 @@ public class SysDictionaryServiceImp extends CurdAppService<SysDataDictionary, S
     @Override
     protected void beforeEdit(SysDictionaryDTO request) {
         var claimsUserInfo = HttpContextUtils.getUserContext();
-        if (request.getIsBasicData() && claimsUserInfo.getUserId() != 1)
+        if (request.getIsBasicData() && claimsUserInfo.getUserId() != StringExtensions.UUID_SUPER_ADMIN)
             throw new FriendlyException("非超级管理员不能修改基础数据");
     }
 }

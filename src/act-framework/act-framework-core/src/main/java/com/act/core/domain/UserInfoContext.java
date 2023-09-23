@@ -2,6 +2,8 @@ package com.act.core.domain;
 
 import lombok.Data;
 
+import java.util.UUID;
+
 @SuppressWarnings("all")
 @Data
 public class UserInfoContext {
@@ -12,8 +14,8 @@ public class UserInfoContext {
     public static final String userIconPrex = "http://schemas.microsoft.com/ws/2008/06/identity/claims/icon";
 
 
-    private Long userId;
+    private UUID userId;
     private String name;
     private String userIcon;
-    private Long roleId;
+    private String roleId;
 }

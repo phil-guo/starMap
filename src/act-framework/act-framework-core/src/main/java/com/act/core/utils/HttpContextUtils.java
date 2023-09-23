@@ -6,6 +6,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.Map;
+import java.util.UUID;
 
 @SuppressWarnings("all")
 public class HttpContextUtils {
@@ -20,9 +21,9 @@ public class HttpContextUtils {
 
         var userContext = new UserInfoContext();
 
-        userContext.setUserId(Long.valueOf((Integer) map.get(UserInfoContext.userIdPrex)));
+        userContext.setUserId((UUID) map.get(UserInfoContext.userIdPrex));
         userContext.setName((String) map.get(UserInfoContext.userNamePrex));
-        userContext.setRoleId(Long.valueOf((Integer) map.get(UserInfoContext.roleIdPrex)));
+        userContext.setRoleId((String) map.get(UserInfoContext.roleIdPrex));
         userContext.setUserIcon((String) map.get(UserInfoContext.userIconPrex));
         return userContext;
     }
