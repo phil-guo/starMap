@@ -9,6 +9,7 @@ import com.act.core.utils.AjaxResponse;
 import com.github.yulichang.base.MPJBaseMapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -46,7 +47,9 @@ public class BaseController<TEntity extends BaseEntity<Long>, TEntityDto extends
     @PostMapping("removes")
     public AjaxResponse<Object> removes(@RequestBody RemovesDTO ids) {
         try {
-            _crud.removeBatchByIds(ids.getIds());
+            ids.getIds().forEach(id -> {
+                _crud.delete(id);
+            });
             return new AjaxResponse<>("删除成功");
         } catch (Exception exception) {
             return new AjaxResponse<>(exception.getMessage());

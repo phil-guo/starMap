@@ -11,6 +11,7 @@ import com.act.core.utils.WrapperExtensions;
 import com.act.modules.zero.internal.application.menu.dto.*;
 import com.act.modules.zero.internal.application.operate.SysOperateService;
 import com.act.modules.zero.internal.application.page.PageService;
+import com.act.modules.zero.internal.application.pageConfig.PageConfigService;
 import com.act.modules.zero.internal.application.role.SysRoleMenuService;
 import com.act.modules.zero.internal.application.role.SysRoleService;
 import com.act.modules.zero.internal.application.role.dto.RoleMenuDTO;
@@ -39,6 +40,8 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
     private SysOperateService _operate;
     @Autowired
     private SysRoleMenuService _roleMenu;
+    @Autowired
+    private PageConfigService _pageConfig;
 
     @Autowired
     private SysRoleService _role;
@@ -250,6 +253,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
     }
 
     @Override
+    @Transactional
     public void delete(Long id) throws FriendlyException {
         //删除验证
         var roleMenus = _roleMenu.Table()
@@ -264,6 +268,27 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
             var roleNames = roles.stream().map(SysRole::getName).collect(Collectors.toList());
             throw new FriendlyException("请先解除角色[" + String.join(",", roleNames) + "]权限中的菜单关系，在删除菜单");
         }
+
+        //删除对应的page和pageConfig
+        var menu = getById(id);
+        if (menu == null)
+            throw new FriendlyException("菜单不存在！请检查菜单数据！");
+
+        var page = _page.Table().selectOne(new LambdaQueryWrapper<Page>()
+                .eq(Page::getKey, menu.getKey()));
+
+        PageConfig pageConfig = null;
+        if (page != null) {
+            _page.delete(page.getId());
+            pageConfig = _pageConfig
+                    .Table()
+                    .selectOne(new LambdaQueryWrapper<PageConfig>()
+                            .eq(PageConfig::getPageId, page.getId()));
+        }
+
+        if (pageConfig != null)
+            _pageConfig.delete(pageConfig.getId());
+
         super.delete(id);
     }
 
