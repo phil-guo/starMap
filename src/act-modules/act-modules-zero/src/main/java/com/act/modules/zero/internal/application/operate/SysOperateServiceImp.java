@@ -3,6 +3,7 @@ package com.act.modules.zero.internal.application.operate;
 import com.act.core.application.CurdAppService;
 import com.act.core.utils.BeanUtilsExtensions;
 import com.act.core.utils.FriendlyException;
+import com.act.core.utils.StringExtensions;
 import com.act.modules.zero.internal.application.menu.SysMenuService;
 import com.act.modules.zero.internal.application.operate.dto.*;
 import com.act.modules.zero.internal.application.role.SysRoleMenuService;
@@ -38,7 +39,7 @@ public class SysOperateServiceImp extends CurdAppService<SysOperate, SysOperateD
 
         SysOperate data = new SysOperate();
 
-        if (request.getId() == 0) {
+        if (request.getId() == StringExtensions.UUID_EMPTY) {
             var entity = Table().selectOne(new LambdaQueryWrapper<SysOperate>()
                     .orderBy(true, false, SysOperate::getUnique));
             if (entity != null)

@@ -4,11 +4,12 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 public class RolePermissionDTO {
 
-    private Long menuId;
-    private ArrayList<Long> operates = new ArrayList<>();
+    private UUID menuId;
+    private ArrayList<UUID> operates = new ArrayList<>();
 
 }

@@ -13,6 +13,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.var;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @SuppressWarnings("all")
 public class SysDictionaryServiceImp extends CurdAppService<SysDataDictionary, SysDictionaryDTO, SysDictionaryMapper>
@@ -29,7 +31,7 @@ public class SysDictionaryServiceImp extends CurdAppService<SysDataDictionary, S
     }
 
     @Override
-    public void delete(Long id) throws FriendlyException {
+    public void delete(UUID id) throws FriendlyException {
         var entity = getById(id);
         var claimsUserInfo = HttpContextUtils.getUserContext();
         if (entity.getIsBasicData() && claimsUserInfo.getUserId() != 1)

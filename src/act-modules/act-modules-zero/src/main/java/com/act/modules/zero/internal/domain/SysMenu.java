@@ -5,15 +5,18 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.util.UUID;
+
 /**
  *
  */
 @Data
 @TableName("sys_menu")
 @SuppressWarnings("all")
-public class SysMenu extends BaseEntity<Long> {
+public class SysMenu extends BaseEntity<UUID> {
+
     @TableField("parentId")
-    private Long parentId;
+    private UUID parentId;
 
     @TableField("name")
     private String name;

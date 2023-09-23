@@ -2,7 +2,9 @@ package com.act.modules.zero.internal.application.user.dto;
 
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 public class ResetPasswordRequest {
-    private Integer userId;
+    private UUID userId;
 }

@@ -5,12 +5,13 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @SuppressWarnings("all")
-public class SysMenuDTO extends BaseEntity<Long> {
+public class SysMenuDTO extends BaseEntity<UUID> {
 
-    private Long parentId;
+    private UUID parentId;
 
     private String name;
 

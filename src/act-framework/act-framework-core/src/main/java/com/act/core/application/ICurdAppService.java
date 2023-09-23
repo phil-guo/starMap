@@ -5,9 +5,11 @@ import com.act.core.utils.FriendlyException;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.yulichang.base.MPJBaseMapper;
 
+import java.util.UUID;
+
 @SuppressWarnings("all")
-public interface ICurdAppService<TEntity extends BaseEntity<Long>,
-        TEntityDto extends BaseEntity<Long>,
+public interface ICurdAppService<TEntity extends BaseEntity<UUID>,
+        TEntityDto extends BaseEntity<UUID>,
         BP extends MPJBaseMapper<TEntity>> extends IService<TEntity> {
 
     /**
@@ -41,5 +43,5 @@ public interface ICurdAppService<TEntity extends BaseEntity<Long>,
      *
      * @param id 主键
      */
-    void delete(Long id) throws FriendlyException;
+    void delete(UUID id) throws FriendlyException;
 }

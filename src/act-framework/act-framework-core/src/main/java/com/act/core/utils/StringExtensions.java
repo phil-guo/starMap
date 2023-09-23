@@ -1,6 +1,7 @@
 package com.act.core.utils;
 
 import java.security.MessageDigest;
+import java.util.UUID;
 
 public class StringExtensions {
     public static String ToMd5(String strs) {
@@ -37,4 +38,7 @@ public class StringExtensions {
         }
         return sb.toString();
     }
+
+    public static final UUID UUID_EMPTY = UUID.fromString("00000000-0000-0000-0000-000000000000");
+    public static final UUID UUID_SUPER_ADMIN = UUID.fromString("11111111-1111-1111-1111-111111111111");
 }

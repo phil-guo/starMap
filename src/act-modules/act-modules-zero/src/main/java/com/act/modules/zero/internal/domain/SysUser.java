@@ -5,14 +5,16 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 @TableName("sys_user")
 @SuppressWarnings("all")
-public class SysUser extends BaseEntity<Long> {
+public class SysUser extends BaseEntity<UUID> {
 
     //角色Id
-    @TableField("roleId")
-    private Long roleId;
+    @TableField("roleIds")
+    private String roleIds;
 
     //用户名
     @TableField("userName")

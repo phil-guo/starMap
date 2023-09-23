@@ -17,6 +17,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Hashtable;
+import java.util.UUID;
 
 @Service
 @SuppressWarnings("all")
@@ -29,7 +30,7 @@ public class SysUserServiceImp
         var wrapper = WrapperExtensions.<SysUser>ConvertToWrapper(search.getDynamicFilters())
                 .selectAll(SysUser.class)
                 .selectAs(SysRole::getName, SysUserDTO::getRoleName)
-                .innerJoin(SysRole.class, SysRole::getId, SysUser::getRoleId);
+                .innerJoin(SysRole.class, SysRole::getId, SysUser::getRoleIds);
 
         var result = Table()
                 .selectJoinPage(new Page<>(search.getPageIndex(), search.getPageSize()), SysUserDTO.class, wrapper);
@@ -46,11 +47,11 @@ public class SysUserServiceImp
         if (request == null)
             return null;
 
-        if (request.getId() != null && request.getId() == 1 || request.getUserName().equals("admin"))
+        if (request.getId() != null && request.getId() == StringExtensions.UUID_SUPER_ADMIN || request.getUserName().equals("admin"))
             throw new FriendlyException("admin管理员不允许被修改");
 
         SysUser data = new SysUser();
-        if ((request.getId() != null && request.getId() == 0) || request.getId() == null) {
+        if ((request.getId() != null && request.getId() == StringExtensions.UUID_EMPTY) || request.getId() == null) {
             request.setPassword(StringExtensions.ToMd5(request.getPassword()));
             BeanUtilsExtensions.copyProperties(request, data);
             Table().insert(data);
@@ -60,7 +61,7 @@ public class SysUserServiceImp
                 throw new FriendlyException("系统用户不存在");
 
             oldEntity.setUserName(request.getUserName());
-            oldEntity.setRoleId(request.getRoleId());
+            oldEntity.setRoleIds(request.getRoleIds());
 
             if (request.getPassword() != null)
                 oldEntity.setPassword(StringExtensions.ToMd5(request.getPassword()));
@@ -74,13 +75,13 @@ public class SysUserServiceImp
     }
 
     @Override
-    public void delete(Long id) throws FriendlyException {
+    public void delete(UUID id) throws FriendlyException {
 
         var user = Table().selectById(id);
         if (user == null)
             throw new FriendlyException("用户不存在！");
 
-        if (user.getId() == 1 || user.getUserName().equals("admin"))
+        if (user.getId() == StringExtensions.UUID_SUPER_ADMIN || user.getUserName().equals("admin"))
             throw new FriendlyException("admin管理员不允许被删除");
 
         super.delete(id);
@@ -105,7 +106,7 @@ public class SysUserServiceImp
         var map = new Hashtable<String, Object>();
         map.put(UserInfoContext.userIdPrex, user.getId());
         map.put(UserInfoContext.userNamePrex, StringUtils.isEmpty(user.getUserName()) ? "" : user.getUserName());
-        map.put(UserInfoContext.roleIdPrex, user.getRoleId());
+        map.put(UserInfoContext.roleIdPrex, user.getRoleIds());
         map.put(UserInfoContext.userIconPrex, StringUtils.isEmpty(user.getIcon()) ? "" : user.getIcon());
         var token = JWTUtils.getToken(map);
 

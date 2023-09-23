@@ -1,5 +1,6 @@
 package com.act.modules.zero.internal.application.role;
 
+import com.act.core.utils.StringExtensions;
 import com.act.modules.zero.internal.application.menu.SysMenuService;
 import com.act.modules.zero.internal.application.role.dto.RolePermissionDTO;
 import com.act.modules.zero.internal.application.role.dto.SetRolePermissionRequest;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 @Service
 @SuppressWarnings("all")
@@ -65,9 +67,9 @@ public class SysRoleServiceImp extends CurdAppService<SysRole, SysRoleDTO, SysRo
         request.getMenuIds().forEach(item -> {
             var model = new RolePermissionDTO();
             var operateArray = item.split("_");
-            var operateId = Long.parseLong(operateArray[1]);
-            var menuId = Long.parseLong(operateArray[0]);
-            if (operateId == 0) {
+            var operateId = UUID.fromString(operateArray[1]);
+            var menuId = UUID.fromString(operateArray[0]);
+            if (operateId == StringExtensions.UUID_EMPTY) {
                 if (models.stream().anyMatch(rp -> rp.getMenuId().equals(menuId)))
                     return;
                 model.setMenuId(menuId);
@@ -92,7 +94,7 @@ public class SysRoleServiceImp extends CurdAppService<SysRole, SysRoleDTO, SysRo
             var roleMenu = new SysRoleMenu();
             roleMenu.setMenuId(item.getMenuId());
             roleMenu.setRoleId(request.getRoleId());
-            roleMenu.setOperates(JSON.toJSONString(menu.getParentId() == 0
+            roleMenu.setOperates(JSON.toJSONString(menu.getParentId() == StringExtensions.UUID_EMPTY
                     ? new ArrayList<Long>()
                     : item.getOperates()));
 
@@ -103,8 +105,8 @@ public class SysRoleServiceImp extends CurdAppService<SysRole, SysRoleDTO, SysRo
     }
 
     @Override
-    public void delete(Long id) throws FriendlyException {
-        if (id == 1)
+    public void delete(UUID id) throws FriendlyException {
+        if (id == StringExtensions.UUID_SUPER_ADMIN)
             throw new FriendlyException("超级管理员不允许被删除！");
         super.delete(id);
     }

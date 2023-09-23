@@ -1,5 +1,6 @@
 package com.act.modules.zero.internal.application.page;
 
+import com.act.core.utils.StringExtensions;
 import com.act.modules.zero.internal.application.page.dto.GetPageDetailDTO;
 import com.act.modules.zero.internal.application.page.dto.PageDTO;
 import com.act.core.application.CurdAppService;
@@ -67,7 +68,7 @@ public class PageServiceImp extends CurdAppService<Page, PageDTO, PageMapper> im
         var page = getOne(new LambdaQueryWrapper<Page>()
                 .eq(Page::getKey, request.getKey()));
 
-        if (page != null && request.getId() == 0)
+        if (page != null && request.getId() == StringExtensions.UUID_EMPTY)
             throw new FriendlyException("已经存在key:" + request.getKey() + ",请重新填写");
     }
 }

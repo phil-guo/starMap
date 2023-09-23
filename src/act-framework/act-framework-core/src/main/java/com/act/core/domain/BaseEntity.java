@@ -14,7 +14,7 @@ import java.util.Date;
  */
 @Data
 public abstract class BaseEntity<T> implements Serializable {
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_UUID)
     private T id;
 
     @TableField(value = "createTime", fill = FieldFill.INSERT)

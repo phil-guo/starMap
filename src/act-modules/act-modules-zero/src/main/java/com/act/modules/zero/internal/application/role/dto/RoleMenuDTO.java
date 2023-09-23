@@ -4,11 +4,12 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 public class RoleMenuDTO {
-    private long id;
-    private long parentId;
+    private UUID id;
+    private UUID parentId;
     private String title;
     private String icon;
     private String path;

@@ -3,6 +3,7 @@ package com.act.core.application;
 import com.act.core.domain.BaseEntity;
 import com.act.core.utils.BeanUtilsExtensions;
 import com.act.core.utils.FriendlyException;
+import com.act.core.utils.StringExtensions;
 import com.act.core.utils.WrapperExtensions;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -14,13 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.UUID;
 
 /**
  * @author phil.guo
  */
 @SuppressWarnings("all")
 @Service
-public abstract class CurdAppService<TEntity extends BaseEntity<Long>, TEntityDto extends BaseEntity<Long>, BP extends MPJBaseMapper<TEntity>>
+public abstract class CurdAppService<TEntity extends BaseEntity<UUID>, TEntityDto extends BaseEntity<UUID>, BP extends MPJBaseMapper<TEntity>>
         extends ServiceImpl<BP, TEntity>
         implements ICurdAppService<TEntity, TEntityDto, BP> {
 
@@ -74,7 +76,7 @@ public abstract class CurdAppService<TEntity extends BaseEntity<Long>, TEntityDt
 
         TEntity entity = null;
 
-        if (request.getId() == null || request.getId() == 0) {
+        if (request.getId() == null || request.getId() == StringExtensions.UUID_EMPTY) {
             entity = _entity.newInstance();
             BeanUtils.copyProperties(request, entity);
             beforeCreate(request);
@@ -100,7 +102,7 @@ public abstract class CurdAppService<TEntity extends BaseEntity<Long>, TEntityDt
      * @param id 主键
      * @throws FriendlyException
      */
-    public void delete(Long id) throws FriendlyException {
+    public void delete(UUID id) throws FriendlyException {
         _repos.deleteById(id);
     }
 

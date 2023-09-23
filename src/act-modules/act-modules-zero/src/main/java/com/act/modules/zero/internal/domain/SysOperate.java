@@ -5,16 +5,22 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 @TableName("sys_operate")
 @SuppressWarnings("all")
-public class SysOperate extends BaseEntity<Long> {
+public class SysOperate extends BaseEntity<UUID> {
+
     @TableField("name")
     private String name;
+
     @TableField("`unique`")
     private int unique = 1001;
+
     @TableField("isBasicData")
     private Boolean isBasicData = false;
+
     @TableField("remark")
     private String remark;
 }

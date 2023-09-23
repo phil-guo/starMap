@@ -4,10 +4,7 @@ import com.act.core.application.ComBoxInfo;
 import com.act.core.application.CurdAppService;
 import com.act.core.application.PageDto;
 import com.act.core.application.PagedResultDto;
-import com.act.core.utils.AjaxResponse;
-import com.act.core.utils.BeanUtilsExtensions;
-import com.act.core.utils.FriendlyException;
-import com.act.core.utils.WrapperExtensions;
+import com.act.core.utils.*;
 import com.act.modules.zero.internal.application.menu.dto.*;
 import com.act.modules.zero.internal.application.operate.SysOperateService;
 import com.act.modules.zero.internal.application.page.PageService;
@@ -28,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -65,7 +63,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
             listMenus.add(menuModel);
         });
 
-        var tree = listMenus.stream().filter(item -> item.getParentId() == 99999).collect(Collectors.toList());
+        var tree = listMenus.stream().filter(item -> item.getParentId() == StringExtensions.UUID_EMPTY).collect(Collectors.toList());
 
         var operates = _operate.Table().selectList(new LambdaQueryWrapper<SysOperate>()
                 .select(SysOperate::getId, SysOperate::getUnique, SysOperate::getName));
@@ -141,7 +139,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
         var result = new ArrayList<MenusRoleResponse>();
         var tree = GetRoleOfMenus(request.getRoleId(), true);
         var home = new MenusRoleResponse();
-        home.setId(0L);
+        home.setId(StringExtensions.UUID_EMPTY);
         home.setIcon("el-icon-platform-eleme");
         home.setPath("/home");
         home.setTitle("首页");
@@ -204,7 +202,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
             return null;
 
         var data = new SysMenu();
-        if (request.getId() != null && request.getId() > 0) {
+        if (request.getId() != null && request.getId() != StringExtensions.UUID_EMPTY) {
             data = Table().selectById(request.getId());
             if (!data.getName().equals(request.getName()) || !data.getKey().equals(request.getKey())) {
                 var oldPage = _page.Table().selectOne(new LambdaQueryWrapper<Page>()
@@ -232,7 +230,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
             var lastMenu = Table().selectOne(new LambdaQueryWrapper<SysMenu>()
                     .last("limit 1")
                     .orderBy(true, false, SysMenu::getId));
-            if (lastMenu != null && (request.getId() == null || request.getId() == 0))
+            if (lastMenu != null && (request.getId() == null || request.getId() == StringExtensions.UUID_EMPTY))
                 request.setSort(lastMenu.AddOperateSort());
 
             var key = StringUtils.isEmpty(request.getKey()) ? "" : request.getKey();
@@ -254,7 +252,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
 
     @Override
     @Transactional
-    public void delete(Long id) throws FriendlyException {
+    public void delete(UUID id) throws FriendlyException {
         //删除验证
         var roleMenus = _roleMenu.Table()
                 .selectList(new LambdaQueryWrapper<SysRoleMenu>()
@@ -323,7 +321,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
         });
     }
 
-    private List<RoleMenuDTO> GetRoleOfMenus(long roleId, Boolean isLeftShow) {
+    private List<RoleMenuDTO> GetRoleOfMenus(UUID roleId, Boolean isLeftShow) {
         var datas = GetRoleMenu(roleId, isLeftShow);
         var listMenus = new ArrayList<RoleMenuDTO>();
         datas.forEach(item -> {
@@ -338,7 +336,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
             listMenus.add(dto);
         });
 
-        var tree = listMenus.stream().filter(item -> item.getParentId() == 99999).collect(Collectors.toList());
+        var tree = listMenus.stream().filter(item -> item.getParentId() == StringExtensions.UUID_EMPTY).collect(Collectors.toList());
         tree.forEach(item -> BuildRoleMenusRecursiveTree(listMenus, item));
         return tree;
     }
@@ -351,7 +349,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
         });
     }
 
-    private List<SysMenu> GetRoleMenu(long roleId, Boolean isLeftShow) {
+    private List<SysMenu> GetRoleMenu(UUID roleId, Boolean isLeftShow) {
         var menus = new ArrayList<SysMenu>();
         var roleMenusByRole = _roleMenu.Table().selectList(new MPJLambdaWrapper<SysRoleMenu>()
                 .eq(SysRoleMenu::getRoleId, roleId)
