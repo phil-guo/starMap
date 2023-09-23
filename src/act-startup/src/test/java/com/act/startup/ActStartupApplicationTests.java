@@ -69,7 +69,7 @@ class ActStartupApplicationTests {
 //    }
 
     @Test
-    public void  seedData_Test() throws InstantiationException, IllegalAccessException {
+    public void  seedData_Test() {
         HttpContextUtils.getUserContext(true);
         _seed.seedData();
     }

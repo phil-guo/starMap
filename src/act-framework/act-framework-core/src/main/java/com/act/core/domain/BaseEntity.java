@@ -24,21 +24,21 @@ public abstract class BaseEntity<T> implements Serializable {
 
     @TableField(value = "createTime", fill = FieldFill.INSERT)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime createTime = LocalDateTime.now();
+    private LocalDateTime createTime;
 
     @TableField(value = "createUser", fill = FieldFill.INSERT)
-    private String createUser;// = HttpContextUtils.getUserContext().getName();
+    private String createUser;
 
     @TableField(value = "createUserId", fill = FieldFill.INSERT)
-    private T createUserId;// = (T) HttpContextUtils.getUserContext().getUserId();
+    private T createUserId;
 
     @TableField(value = "updateTime", fill = FieldFill.UPDATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime updateTime;// = LocalDateTime.now();
+    private LocalDateTime updateTime;
 
     @TableField(value = "updateUser", fill = FieldFill.UPDATE)
-    private String updateUser;// = HttpContextUtils.getUserContext().getName();
+    private String updateUser;
 
     @TableField(value = "updateUserId", fill = FieldFill.UPDATE)
-    private T updateUserId;// = (T) HttpContextUtils.getUserContext().getUserId();
+    private T updateUserId;
 }

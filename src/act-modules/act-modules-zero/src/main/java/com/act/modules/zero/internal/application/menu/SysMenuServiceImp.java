@@ -233,17 +233,20 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
             if (lastMenu != null && (request.getId() == null || request.getId() == StringExtensions.UUID_EMPTY))
                 request.setSort(lastMenu.AddOperateSort());
 
-            var key = StringUtils.isEmpty(request.getKey()) ? "" : request.getKey();
+            if (!StringUtils.isEmpty(request.getKey())) {
+                if (_page.Table().exists(new LambdaQueryWrapper<Page>().eq(Page::getKey, request.getKey())))
+                    throw new FriendlyException("已经存在Key：【" + request.getKey() + "】");
 
-            if (_page.Table().exists(new LambdaQueryWrapper<Page>().eq(Page::getKey, key)))
-                throw new FriendlyException("已经存在Key：【" + key + "】");
-
-            BeanUtilsExtensions.copyProperties(request, data);
-            save(data);
-            var page = new Page();
-            page.setName(request.getName());
-            page.setKey(request.getKey());
-            _page.save(page);
+                BeanUtilsExtensions.copyProperties(request, data);
+                save(data);
+                var page = new Page();
+                page.setName(request.getName());
+                page.setKey(request.getKey());
+                _page.save(page);
+            } else {
+                BeanUtilsExtensions.copyProperties(request, data);
+                save(data);
+            }
         }
         var result = new SysMenuDTO();
         BeanUtilsExtensions.copyProperties(data, result);

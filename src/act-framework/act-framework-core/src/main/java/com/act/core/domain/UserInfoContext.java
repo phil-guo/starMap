@@ -6,7 +6,7 @@ import java.util.UUID;
 
 @SuppressWarnings("all")
 @Data
-public class UserInfoContext {
+public final class UserInfoContext {
 
     public static final String userNamePrex = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
     public static final String userIdPrex = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid";

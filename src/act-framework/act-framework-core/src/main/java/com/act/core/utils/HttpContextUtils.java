@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @SuppressWarnings("all")
-public class HttpContextUtils {
+public final class HttpContextUtils {
 
     static HashMap<String, Object> map = new HashMap<>();
 
