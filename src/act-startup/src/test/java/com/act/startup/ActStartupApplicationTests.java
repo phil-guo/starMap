@@ -4,6 +4,7 @@ import com.act.core.application.DynamicFilter;
 import com.act.core.application.PageDto;
 import com.act.core.utils.AjaxResponse;
 import com.act.core.utils.FriendlyException;
+import com.act.core.utils.HttpContextUtils;
 import com.act.core.utils.StringExtensions;
 import com.act.modules.zero.internal.application.dictionary.SysDictionaryService;
 import com.act.modules.zero.internal.application.menu.SysMenuService;
@@ -13,6 +14,7 @@ import com.act.modules.zero.internal.application.operate.dto.GetMenuOfOperateByR
 import com.act.modules.zero.internal.application.operate.dto.MenuOfOperateRequest;
 import com.act.modules.zero.internal.application.role.SysRoleService;
 import com.act.modules.zero.internal.application.role.dto.SetRolePermissionRequest;
+import com.act.modules.zero.internal.application.seed.SeedService;
 import com.act.modules.zero.internal.application.user.SysUserService;
 import com.act.modules.zero.internal.application.user.dto.LoginDTO;
 import com.act.modules.zero.internal.application.user.dto.ResetPasswordRequest;
@@ -43,70 +45,79 @@ class ActStartupApplicationTests {
     }
 
     @Resource
-    private SysUserService userService;
+    private SeedService _seed;
 
-    @Resource
-    private SysRoleService roleService;
-
-    @Resource
-    private SysOperateService operate;
-
-    @Resource
-    private SysMenuService menu;
-
-    @Resource
-    private SysDictionaryService datationary;
-
-    @Test
-    public void getDictionaryByGroup_Test() {
-        var one = datationary.getDictionaryByGroup("QuartzStatus");
-        System.out.println(JSON.toJSONString(one));
-    }
-
-    @Test
-    public void menu_pageSearch_Test() {
-        var page = new PageDto();
-        var one = menu.pageSearch(page);
-        System.out.println(one.getDatas());
-    }
+//    @Resource
+//    private SysUserService userService;
+//
+//    @Resource
+//    private SysRoleService roleService;
+//
+//    @Resource
+//    private SysOperateService operate;
+//
+//    @Resource
+//    private SysMenuService menu;
+//
+//    @Resource
+//    private SysDictionaryService datationary;
+//
+//    @Test
+//    public void getDictionaryByGroup_Test() {
+//        var one = datationary.getDictionaryByGroup("QuartzStatus");
+//        System.out.println(JSON.toJSONString(one));
+//    }
 
     @Test
-    public void getMenusSetRole_Test() {
-        var request = new MenusRoleRequest();
-        request.setRoleId(StringExtensions.UUID_SUPER_ADMIN);
-        var one = menu.getMenusSetRole(request);
-        System.out.println(JSON.toJSONString(one));
+    public void  seedData_Test() throws InstantiationException, IllegalAccessException {
+        HttpContextUtils.getUserContext(true);
+        _seed.seedData();
     }
 
-    @Test
-    public void getMenusByRole_Test() {
-        var request = new MenusRoleRequest();
-        request.setRoleId(StringExtensions.UUID_SUPER_ADMIN);
-        var one = menu.getMenusByRole(request);
-        System.out.println(JSON.toJSONString(one));
-    }
-
-    @Test
-    public void getAllParentMenus_Test() {
-        var one = menu.getAllParentMenus();
-        System.out.println(JSON.toJSONString(one));
-    }
-
-    @Test
-    public void Menu_getMenuOfOperate_Test() throws FriendlyException {
-        var one = menu.getMenuOfOperate(52L);
-        System.out.println(JSON.toJSONString(one));
-
-    }
-
-    @Test
-    public void getMenuOfOperateByRole_Test() throws FriendlyException {
-        var request = new GetMenuOfOperateByRoleRequest();
-        request.setKey("oils");
-        request.setRoleId(StringExtensions.UUID_SUPER_ADMIN);
-        var one = operate.getMenuOfOperateByRole(request);
-        System.out.println(one);
-    }
+//    @Test
+//    public void menu_pageSearch_Test() {
+//        var page = new PageDto();
+//        var one = menu.pageSearch(page);
+//        System.out.println(one.getDatas());
+//    }
+//
+//    @Test
+//    public void getMenusSetRole_Test() {
+//        var request = new MenusRoleRequest();
+//        request.setRoleId(StringExtensions.UUID_SUPER_ADMIN);
+//        var one = menu.getMenusSetRole(request);
+//        System.out.println(JSON.toJSONString(one));
+//    }
+//
+//    @Test
+//    public void getMenusByRole_Test() {
+//        var request = new MenusRoleRequest();
+//        request.setRoleId(StringExtensions.UUID_SUPER_ADMIN);
+//        var one = menu.getMenusByRole(request);
+//        System.out.println(JSON.toJSONString(one));
+//    }
+//
+//    @Test
+//    public void getAllParentMenus_Test() {
+//        var one = menu.getAllParentMenus();
+//        System.out.println(JSON.toJSONString(one));
+//    }
+//
+//    @Test
+//    public void Menu_getMenuOfOperate_Test() throws FriendlyException {
+//        var one = menu.getMenuOfOperate(52L);
+//        System.out.println(JSON.toJSONString(one));
+//
+//    }
+//
+//    @Test
+//    public void getMenuOfOperateByRole_Test() throws FriendlyException {
+//        var request = new GetMenuOfOperateByRoleRequest();
+//        request.setKey("oils");
+//        request.setRoleId(StringExtensions.UUID_SUPER_ADMIN);
+//        var one = operate.getMenuOfOperateByRole(request);
+//        System.out.println(one);
+//    }
 
 //    @Test
 //    public void getMenuOfOperate_Test() {

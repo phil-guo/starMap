@@ -8,8 +8,8 @@ import com.github.yulichang.base.MPJBaseMapper;
 import java.util.UUID;
 
 @SuppressWarnings("all")
-public interface ICurdAppService<TEntity extends BaseEntity<UUID>,
-        TEntityDto extends BaseEntity<UUID>,
+public interface ICurdAppService<TEntity extends BaseEntity<String>,
+        TEntityDto extends BaseEntity<String>,
         BP extends MPJBaseMapper<TEntity>> extends IService<TEntity> {
 
     /**
@@ -43,5 +43,5 @@ public interface ICurdAppService<TEntity extends BaseEntity<UUID>,
      *
      * @param id 主键
      */
-    void delete(UUID id) throws FriendlyException;
+    void delete(String id) throws FriendlyException;
 }

@@ -10,15 +10,15 @@ import java.util.UUID;
 @Data
 @TableName("sys_rolemenu")
 @SuppressWarnings("all")
-public class SysRoleMenu extends BaseEntity<UUID> {
+public class SysRoleMenu extends BaseEntity<String> {
 
     //角色Id
     @TableField("roleId")
-    private UUID roleId;
+    private String roleId;
 
     //菜单Id
     @TableField("menuId")
-    private UUID menuId;
+    private String menuId;
 
     //操作
     @TableField("operates")

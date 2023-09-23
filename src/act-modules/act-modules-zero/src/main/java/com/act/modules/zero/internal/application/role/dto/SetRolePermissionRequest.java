@@ -7,6 +7,6 @@ import java.util.UUID;
 
 @Data
 public class SetRolePermissionRequest {
-    private UUID roleId;
+    private String roleId;
     private ArrayList<String> menuIds = new ArrayList<>();
 }

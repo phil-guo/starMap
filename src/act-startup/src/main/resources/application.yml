@@ -16,7 +16,7 @@ spring:
 #    name: sqlite3
 #    driver-class-name: org.sqlite.JDBC
 #    url: jdbc:sqlite::resource:db/starMap.db
-    url: "jdbc:mysql://www.autoct.top:33306/java_act?characterEncoding=utf-8"
+    url: "jdbc:mysql://www.autoct.top:33306/java_uuid_act?character_set_server=utf8mb4"
     username: "root"
     password: "qwe123QWE"
   servlet:

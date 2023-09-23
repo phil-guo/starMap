@@ -1,10 +1,7 @@
 package com.act.core.application;
 
 import com.act.core.domain.BaseEntity;
-import com.act.core.utils.BeanUtilsExtensions;
-import com.act.core.utils.FriendlyException;
-import com.act.core.utils.StringExtensions;
-import com.act.core.utils.WrapperExtensions;
+import com.act.core.utils.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.base.MPJBaseMapper;
@@ -15,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.ParameterizedType;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -22,7 +20,7 @@ import java.util.UUID;
  */
 @SuppressWarnings("all")
 @Service
-public abstract class CurdAppService<TEntity extends BaseEntity<UUID>, TEntityDto extends BaseEntity<UUID>, BP extends MPJBaseMapper<TEntity>>
+public abstract class CurdAppService<TEntity extends BaseEntity<String>, TEntityDto extends BaseEntity<String>, BP extends MPJBaseMapper<TEntity>>
         extends ServiceImpl<BP, TEntity>
         implements ICurdAppService<TEntity, TEntityDto, BP> {
 
@@ -78,6 +76,8 @@ public abstract class CurdAppService<TEntity extends BaseEntity<UUID>, TEntityDt
 
         if (request.getId() == null || request.getId() == StringExtensions.UUID_EMPTY) {
             entity = _entity.newInstance();
+            request.setCreateUser(HttpContextUtils.getUserContext().getName());
+            request.setCreateUserId(HttpContextUtils.getUserContext().getUserId());
             BeanUtils.copyProperties(request, entity);
             beforeCreate(request);
             _repos.insert(entity);
@@ -86,7 +86,9 @@ public abstract class CurdAppService<TEntity extends BaseEntity<UUID>, TEntityDt
             entity = _repos.selectById(request.getId());
             if (entity == null)
                 return null;
-            request.setCreateTime(null);
+            request.setUpdateTime(LocalDateTime.now());
+            request.setUpdateUser(HttpContextUtils.getUserContext().getName());
+            request.setUpdateUserId(HttpContextUtils.getUserContext().getUserId());
             BeanUtils.copyProperties(request, entity);
             _repos.updateById(entity);
         }
@@ -102,7 +104,7 @@ public abstract class CurdAppService<TEntity extends BaseEntity<UUID>, TEntityDt
      * @param id 主键
      * @throws FriendlyException
      */
-    public void delete(UUID id) throws FriendlyException {
+    public void delete(String id) throws FriendlyException {
         _repos.deleteById(id);
     }
 

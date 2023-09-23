@@ -8,5 +8,5 @@ import java.util.UUID;
 
 @Data
 public class RemovesDTO {
-    private List<UUID> ids = new ArrayList<>();
+    private List<String> ids = new ArrayList<>();
 }

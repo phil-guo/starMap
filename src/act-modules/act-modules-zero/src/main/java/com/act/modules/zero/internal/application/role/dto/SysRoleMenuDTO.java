@@ -7,13 +7,13 @@ import java.util.UUID;
 
 @Data
 @SuppressWarnings("all")
-public class SysRoleMenuDTO extends BaseEntity<UUID> {
+public class SysRoleMenuDTO extends BaseEntity<String> {
 
     //角色Id
-    private UUID roleId;
+    private String roleId;
 
     //菜单Id
-    private UUID menuId;
+    private String menuId;
 
     //操作
     private String operates;

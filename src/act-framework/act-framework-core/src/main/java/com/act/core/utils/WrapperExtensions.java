@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class WrapperExtensions {
-    public static <T extends BaseEntity<UUID>> MPJLambdaWrapper<T> ConvertToWrapper(List<DynamicFilter> filters) {
+    public static <T extends BaseEntity<String>> MPJLambdaWrapper<T> ConvertToWrapper(List<DynamicFilter> filters) {
         MPJLambdaWrapper<T> queryWrapper = new MPJLambdaWrapper<>();
         if (filters.size() == 0)
             return queryWrapper;

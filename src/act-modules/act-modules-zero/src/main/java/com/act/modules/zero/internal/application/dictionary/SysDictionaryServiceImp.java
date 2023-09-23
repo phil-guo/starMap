@@ -28,7 +28,7 @@ public class SysDictionaryServiceImp extends CurdAppService<SysDataDictionary, S
     }
 
     @Override
-    public void delete(UUID id) throws FriendlyException {
+    public void delete(String id) throws FriendlyException {
         var entity = getById(id);
         var claimsUserInfo = HttpContextUtils.getUserContext();
         if (entity.getIsBasicData() && claimsUserInfo.getUserId() != StringExtensions.UUID_SUPER_ADMIN)

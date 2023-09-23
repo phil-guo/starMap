@@ -8,8 +8,8 @@ import java.util.UUID;
 
 @Data
 public class RoleMenuDTO {
-    private UUID id;
-    private UUID parentId;
+    private String id;
+    private String parentId;
     private String title;
     private String icon;
     private String path;

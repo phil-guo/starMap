@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Data
 @SuppressWarnings("all")
-public class SysOperateDTO extends BaseEntity<UUID> {
+public class SysOperateDTO extends BaseEntity<String> {
     private String name;
     private int unique;
     private Boolean isBasicData;

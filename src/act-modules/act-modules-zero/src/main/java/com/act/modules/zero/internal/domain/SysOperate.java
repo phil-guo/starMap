@@ -10,7 +10,7 @@ import java.util.UUID;
 @Data
 @TableName("sys_operate")
 @SuppressWarnings("all")
-public class SysOperate extends BaseEntity<UUID> {
+public class SysOperate extends BaseEntity<String> {
 
     @TableField("name")
     private String name;

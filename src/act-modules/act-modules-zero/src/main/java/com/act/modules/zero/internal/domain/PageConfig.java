@@ -10,10 +10,10 @@ import java.util.UUID;
 @Data
 @TableName("dc_page_config")
 @SuppressWarnings("all")
-public class PageConfig extends BaseEntity<UUID> {
+public class PageConfig extends BaseEntity<String> {
 
     @TableField("pageId")
-    private UUID pageId;
+    private String pageId;
 
     @TableField("url")
     private String dataUrl;

@@ -10,7 +10,7 @@ import java.util.UUID;
 @Data
 @TableName("sys_dataDictionary")
 @SuppressWarnings("all")
-public class SysDataDictionary extends BaseEntity<UUID> {
+public class SysDataDictionary extends BaseEntity<String> {
 
     @TableField("`key`")
     private String key;

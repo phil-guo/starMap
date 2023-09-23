@@ -13,10 +13,10 @@ import java.util.UUID;
 @Data
 @TableName("sys_menu")
 @SuppressWarnings("all")
-public class SysMenu extends BaseEntity<UUID> {
+public class SysMenu extends BaseEntity<String> {
 
     @TableField("parentId")
-    private UUID parentId;
+    private String parentId;
 
     @TableField("name")
     private String name;

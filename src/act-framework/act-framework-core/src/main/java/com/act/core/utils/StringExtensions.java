@@ -39,6 +39,6 @@ public class StringExtensions {
         return sb.toString();
     }
 
-    public static final UUID UUID_EMPTY = UUID.fromString("00000000-0000-0000-0000-000000000000");
-    public static final UUID UUID_SUPER_ADMIN = UUID.fromString("11111111-1111-1111-1111-111111111111");
+    public static final String UUID_EMPTY = "00000000-0000-0000-0000-000000000000";
+    public static final String UUID_SUPER_ADMIN = "11111111-1111-1111-1111-111111111111";
 }

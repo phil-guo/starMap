@@ -14,7 +14,7 @@ public class UserInfoContext {
     public static final String userIconPrex = "http://schemas.microsoft.com/ws/2008/06/identity/claims/icon";
 
 
-    private UUID userId;
+    private String userId;
     private String name;
     private String userIcon;
     private String roleId;

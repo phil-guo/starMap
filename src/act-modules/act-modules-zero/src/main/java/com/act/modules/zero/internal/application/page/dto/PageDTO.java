@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Data
 @SuppressWarnings("all")
-public class PageDTO extends BaseEntity<UUID> {
+public class PageDTO extends BaseEntity<String> {
     private String name;
     private String key;
 }

@@ -252,7 +252,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
 
     @Override
     @Transactional
-    public void delete(UUID id) throws FriendlyException {
+    public void delete(String id) throws FriendlyException {
         //删除验证
         var roleMenus = _roleMenu.Table()
                 .selectList(new LambdaQueryWrapper<SysRoleMenu>()
@@ -321,7 +321,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
         });
     }
 
-    private List<RoleMenuDTO> GetRoleOfMenus(UUID roleId, Boolean isLeftShow) {
+    private List<RoleMenuDTO> GetRoleOfMenus(String roleId, Boolean isLeftShow) {
         var datas = GetRoleMenu(roleId, isLeftShow);
         var listMenus = new ArrayList<RoleMenuDTO>();
         datas.forEach(item -> {
@@ -349,7 +349,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
         });
     }
 
-    private List<SysMenu> GetRoleMenu(UUID roleId, Boolean isLeftShow) {
+    private List<SysMenu> GetRoleMenu(String roleId, Boolean isLeftShow) {
         var menus = new ArrayList<SysMenu>();
         var roleMenusByRole = _roleMenu.Table().selectList(new MPJLambdaWrapper<SysRoleMenu>()
                 .eq(SysRoleMenu::getRoleId, roleId)

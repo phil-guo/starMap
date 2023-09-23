@@ -10,7 +10,7 @@ import java.util.UUID;
 @Data
 @TableName("dc_page")
 @SuppressWarnings("all")
-public class Page extends BaseEntity<UUID> {
+public class Page extends BaseEntity<String> {
     @TableField("name")
     private String name;
     @TableField("`key`")

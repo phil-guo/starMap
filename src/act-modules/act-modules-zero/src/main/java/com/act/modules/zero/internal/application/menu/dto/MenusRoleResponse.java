@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Data
 public class MenusRoleResponse {
-    private UUID id;
+    private String id;
     private String title;
     private String icon;
     private String path;

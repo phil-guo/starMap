@@ -10,7 +10,7 @@ import java.util.UUID;
 @Data
 @TableName("sys_user")
 @SuppressWarnings("all")
-public class SysUser extends BaseEntity<UUID> {
+public class SysUser extends BaseEntity<String> {
 
     //角色Id
     @TableField("roleIds")

@@ -18,7 +18,7 @@ import java.util.UUID;
 /**
  * @author phil.guo
  */
-public class BaseController<TEntity extends BaseEntity<UUID>, TEntityDto extends BaseEntity<UUID>, BP extends MPJBaseMapper<TEntity>> {
+public class BaseController<TEntity extends BaseEntity<String>, TEntityDto extends BaseEntity<String>, BP extends MPJBaseMapper<TEntity>> {
     @Autowired
     private ICurdAppService<TEntity, TEntityDto, BP> _crud;
 
@@ -36,7 +36,7 @@ public class BaseController<TEntity extends BaseEntity<UUID>, TEntityDto extends
 
     @ApiOperation(value = "删除")
     @PostMapping("remove")
-    public AjaxResponse<Object> remove(UUID id) {
+    public AjaxResponse<Object> remove(String id) {
         try {
             _crud.delete(id);
             return new AjaxResponse<>("删除成功");

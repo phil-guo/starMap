@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Data
 @SuppressWarnings("all")
-public class SysUserDTO extends BaseEntity<UUID> {
+public class SysUserDTO extends BaseEntity<String> {
 
     //角色Id
     private String roleIds;

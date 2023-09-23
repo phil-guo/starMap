@@ -9,9 +9,9 @@ import java.util.UUID;
 
 @Data
 @SuppressWarnings("all")
-public class SysMenuDTO extends BaseEntity<UUID> {
+public class SysMenuDTO extends BaseEntity<String> {
 
-    private UUID parentId;
+    private String parentId;
 
     private String name;
 

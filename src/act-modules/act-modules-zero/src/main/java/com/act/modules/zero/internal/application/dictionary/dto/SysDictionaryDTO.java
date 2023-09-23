@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Data
 @SuppressWarnings("all")
-public class SysDictionaryDTO extends BaseEntity<UUID> {
+public class SysDictionaryDTO extends BaseEntity<String> {
     private String key;
     private String value;
     private String group;

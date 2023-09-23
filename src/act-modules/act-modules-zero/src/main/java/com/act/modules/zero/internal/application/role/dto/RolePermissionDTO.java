@@ -9,7 +9,7 @@ import java.util.UUID;
 @Data
 public class RolePermissionDTO {
 
-    private UUID menuId;
-    private ArrayList<UUID> operates = new ArrayList<>();
+    private String menuId;
+    private ArrayList<String> operates = new ArrayList<>();
 
 }

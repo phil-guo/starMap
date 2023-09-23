@@ -11,7 +11,7 @@ import java.util.UUID;
 @Data
 @TableName("sys_role")
 @SuppressWarnings("all")
-public class SysRole extends BaseEntity<UUID> {
+public class SysRole extends BaseEntity<String> {
 
     /*名称*/
     @TableField("name")

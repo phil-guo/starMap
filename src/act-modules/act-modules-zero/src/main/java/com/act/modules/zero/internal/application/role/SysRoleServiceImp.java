@@ -67,8 +67,8 @@ public class SysRoleServiceImp extends CurdAppService<SysRole, SysRoleDTO, SysRo
         request.getMenuIds().forEach(item -> {
             var model = new RolePermissionDTO();
             var operateArray = item.split("_");
-            var operateId = UUID.fromString(operateArray[1]);
-            var menuId = UUID.fromString(operateArray[0]);
+            var operateId = operateArray[1];
+            var menuId = operateArray[0];
             if (operateId == StringExtensions.UUID_EMPTY) {
                 if (models.stream().anyMatch(rp -> rp.getMenuId().equals(menuId)))
                     return;
@@ -105,7 +105,7 @@ public class SysRoleServiceImp extends CurdAppService<SysRole, SysRoleDTO, SysRo
     }
 
     @Override
-    public void delete(UUID id) throws FriendlyException {
+    public void delete(String id) throws FriendlyException {
         if (id == StringExtensions.UUID_SUPER_ADMIN)
             throw new FriendlyException("超级管理员不允许被删除！");
         super.delete(id);

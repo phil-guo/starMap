@@ -75,7 +75,7 @@ public class SysUserServiceImp
     }
 
     @Override
-    public void delete(UUID id) throws FriendlyException {
+    public void delete(String id) throws FriendlyException {
 
         var user = Table().selectById(id);
         if (user == null)

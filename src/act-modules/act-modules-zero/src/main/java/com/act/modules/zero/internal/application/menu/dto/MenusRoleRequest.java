@@ -6,5 +6,5 @@ import java.util.UUID;
 
 @Data
 public class MenusRoleRequest {
-    private UUID roleId;
+    private String roleId;
 }

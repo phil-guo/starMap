@@ -7,8 +7,8 @@ import java.util.UUID;
 
 @Data
 @SuppressWarnings("all")
-public class PageConfigDTO extends BaseEntity<UUID> {
-    private UUID pageId;
+public class PageConfigDTO extends BaseEntity<String> {
+    private String pageId;
     private String key;
     private String dataUrl;
     private Boolean isRow = false;
