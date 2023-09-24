@@ -107,14 +107,14 @@ public class SysOperateServiceImp extends CurdAppService<SysOperate, SysOperateD
         if (menu == null)
             throw new FriendlyException("key" + request.getKey() + "没有对应的菜单！");
 
-        var roleMenu = this._roleMenu.Table()
+        var roleMenu = _roleMenu.Table()
                 .selectOne(new LambdaQueryWrapper<SysRoleMenu>()
                         .eq(SysRoleMenu::getRoleId, request.getRoleId())
                         .eq(SysRoleMenu::getMenuId, menu.getId()));
         if (roleMenu == null)
             throw new FriendlyException("你还没有配置该页面的功能权限！");
 
-        JSON.parseArray(roleMenu.getOperates()).toJavaList(Long.class).forEach(item -> {
+        JSON.parseArray(roleMenu.getOperates()).toJavaList(String.class).forEach(item -> {
             var operate = Table().selectById(item);
             var data = new GetMenuOfOperateByRoleResponseData();
             data.setUnique(operate.getUnique());

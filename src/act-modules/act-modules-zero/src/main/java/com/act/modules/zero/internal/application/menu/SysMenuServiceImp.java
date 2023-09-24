@@ -63,7 +63,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
             listMenus.add(menuModel);
         });
 
-        var tree = listMenus.stream().filter(item -> item.getParentId() == StringExtensions.UUID_EMPTY).collect(Collectors.toList());
+        var tree = listMenus.stream().filter(item -> item.getParentId().equals(StringExtensions.UUID_EMPTY)).collect(Collectors.toList());
 
         var operates = _operate.Table().selectList(new LambdaQueryWrapper<SysOperate>()
                 .select(SysOperate::getId, SysOperate::getUnique, SysOperate::getName));
@@ -71,13 +71,13 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
         tree.forEach(item -> BuildRoleMenusRecursiveTree(listMenus, item));
         tree.forEach(item -> {
             var model = new MenuModel();
-            model.setId(item.getId() + "_0");
+            model.setId(item.getId() + "_" + StringExtensions.UUID_EMPTY);
             model.setLabel(item.getTitle());
 
             if (item.getChildren().size() > 0) {
                 item.getChildren().forEach(child -> {
                     var operateModel = new MenuModel();
-                    operateModel.setId(child.getId() + "_0");
+                    operateModel.setId(child.getId() + "_"+StringExtensions.UUID_EMPTY);
                     operateModel.setLabel(child.getTitle());
                     model.getChildren().add(operateModel);
                     operates.forEach(op -> {
@@ -107,7 +107,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
 
         var roleMenus = GetRoleOfMenus(request.getRoleId(), null);
         roleMenus.forEach(item -> {
-            result.getMenuIds().add(item.getId() + "_0");
+            result.getMenuIds().add(item.getId() + "_" + StringExtensions.UUID_EMPTY);
             if (item.getChildren().size() > 0) {
                 item.getChildren().forEach(child -> {
                     result.getMenuIds().add(child.getId() + "_0");
@@ -202,7 +202,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
             return null;
 
         var data = new SysMenu();
-        if (request.getId() != null && request.getId() != StringExtensions.UUID_EMPTY) {
+        if (request.getId() != null && !request.getId().equals(StringExtensions.UUID_EMPTY)) {
             data = Table().selectById(request.getId());
             if (!data.getName().equals(request.getName()) || !data.getKey().equals(request.getKey())) {
                 var oldPage = _page.Table().selectOne(new LambdaQueryWrapper<Page>()
@@ -339,7 +339,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
             listMenus.add(dto);
         });
 
-        var tree = listMenus.stream().filter(item -> item.getParentId() == StringExtensions.UUID_EMPTY).collect(Collectors.toList());
+        var tree = listMenus.stream().filter(item -> item.getParentId().equals(StringExtensions.UUID_EMPTY)).collect(Collectors.toList());
         tree.forEach(item -> BuildRoleMenusRecursiveTree(listMenus, item));
         return tree;
     }
@@ -347,7 +347,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
     private void BuildRoleMenusRecursiveTree(List<RoleMenuDTO> list, RoleMenuDTO currentTree) {
         list.forEach(item ->
         {
-            if (item.getParentId() == currentTree.getId())
+            if (item.getParentId().equals(currentTree.getId()))
                 currentTree.getChildren().add(item);
         });
     }
