@@ -81,7 +81,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
                     operateModel.setLabel(child.getTitle());
                     model.getChildren().add(operateModel);
                     operates.forEach(op -> {
-                        var opIds = JSON.parseArray(child.getOperates()).toJavaList(Long.class);
+                        var opIds = JSON.parseArray(child.getOperates()).toJavaList(String.class);
                         if (opIds.contains(op.getId())) {
                             var opModel = new MenuModel();
                             opModel.setId(child.getId() + "_" + op.getId());
@@ -92,7 +92,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
                 });
             } else {
                 operates.forEach(op -> {
-                    var opIds = JSON.parseArray(item.getOperates()).toJavaList(Long.class);
+                    var opIds = JSON.parseArray(item.getOperates()).toJavaList(String.class);
                     if (opIds.contains(op.getId())) {
                         var opModel = new MenuModel();
                         opModel.setId(item.getId() + "_" + op.getId());
@@ -110,8 +110,8 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
             result.getMenuIds().add(item.getId() + "_" + StringExtensions.UUID_EMPTY);
             if (item.getChildren().size() > 0) {
                 item.getChildren().forEach(child -> {
-                    result.getMenuIds().add(child.getId() + "_0");
-                    var opIds = JSON.parseArray(child.getOperates()).toJavaList(Long.class);
+                    result.getMenuIds().add(child.getId() + "_"+StringExtensions.UUID_EMPTY);
+                    var opIds = JSON.parseArray(child.getOperates()).toJavaList(String.class);
                     opIds.forEach(operateId -> {
                         operates.forEach(op -> {
                             if (!op.getId().equals(operateId))
@@ -121,7 +121,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
                     });
                 });
             } else {
-                var opIds = JSON.parseArray(item.getOperates()).toJavaList(Long.class);
+                var opIds = JSON.parseArray(item.getOperates()).toJavaList(String.class);
                 opIds.forEach(operateId -> {
                     operates.forEach(op -> {
                         if (!op.getId().equals(operateId))

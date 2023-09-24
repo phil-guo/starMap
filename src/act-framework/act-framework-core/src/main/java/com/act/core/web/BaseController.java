@@ -9,11 +9,8 @@ import com.act.core.utils.AjaxResponse;
 import com.github.yulichang.base.MPJBaseMapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import java.util.UUID;
 
 /**
  * @author phil.guo

@@ -10,6 +10,6 @@ import java.util.UUID;
 public class RolePermissionDTO {
 
     private String menuId;
-    private ArrayList<String> operates = new ArrayList<>();
+    private ArrayList<String> operates = new ArrayList<String>();
 
 }

@@ -18,6 +18,7 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -41,6 +42,7 @@ public class SysRoleServiceImp extends CurdAppService<SysRole, SysRoleDTO, SysRo
         return new AjaxResponse<>(data);
     }
 
+    @Transactional
     public Boolean setRolePermission(SetRolePermissionRequest request) {
 
         if (request.getMenuIds() == null)
@@ -69,13 +71,13 @@ public class SysRoleServiceImp extends CurdAppService<SysRole, SysRoleDTO, SysRo
             var operateArray = item.split("_");
             var operateId = operateArray[1];
             var menuId = operateArray[0];
-            if (operateId == StringExtensions.UUID_EMPTY) {
+            if (operateId.equals(StringExtensions.UUID_EMPTY)) {
                 if (models.stream().anyMatch(rp -> rp.getMenuId().equals(menuId)))
                     return;
                 model.setMenuId(menuId);
                 models.add(model);
             } else {
-                var rolePermission = models.stream().filter(rp -> rp.getMenuId() == menuId).findAny();
+                var rolePermission = models.stream().filter(rp -> rp.getMenuId().equals(menuId)).findAny();
                 if (rolePermission.isPresent()) {
                     var data = rolePermission.get();
                     data.getOperates().add(operateId);
@@ -94,8 +96,8 @@ public class SysRoleServiceImp extends CurdAppService<SysRole, SysRoleDTO, SysRo
             var roleMenu = new SysRoleMenu();
             roleMenu.setMenuId(item.getMenuId());
             roleMenu.setRoleId(request.getRoleId());
-            roleMenu.setOperates(JSON.toJSONString(menu.getParentId() == StringExtensions.UUID_EMPTY
-                    ? new ArrayList<Long>()
+            roleMenu.setOperates(JSON.toJSONString(menu.getParentId().equals(StringExtensions.UUID_EMPTY)
+                    ? new ArrayList<String>()
                     : item.getOperates()));
 
             roleMenuList.add(roleMenu);

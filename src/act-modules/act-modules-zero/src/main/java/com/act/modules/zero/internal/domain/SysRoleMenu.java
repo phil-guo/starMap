@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.util.UUID;
-
 @Data
 @TableName("sys_rolemenu")
 @SuppressWarnings("all")
