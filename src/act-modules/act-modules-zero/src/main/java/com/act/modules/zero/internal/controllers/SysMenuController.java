@@ -29,8 +29,8 @@ public class SysMenuController extends BaseController<SysMenu, SysMenuDTO, SysMe
 
     @ApiOperation(value = "获取所有父级菜单")
     @GetMapping("getAllParentMenus")
-    public AjaxResponse<Object> getAllParentMenus() {
-        return _menu.getAllParentMenus();
+    public AjaxResponse<Object> getAllParentMenus(int level) {
+        return _menu.getAllParentMenus(level);
     }
 
     @ApiOperation(value = "根据角色获取菜单")

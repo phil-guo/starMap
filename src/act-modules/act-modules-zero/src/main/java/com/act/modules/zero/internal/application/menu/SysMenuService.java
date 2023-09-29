@@ -36,7 +36,7 @@ public interface SysMenuService extends ICurdAppService<SysMenu, SysMenuDTO, Sys
      *
      * @return
      */
-    AjaxResponse<Object> getAllParentMenus();
+    AjaxResponse<Object> getAllParentMenus(int level);
 
     /**
      * 获取菜单操作

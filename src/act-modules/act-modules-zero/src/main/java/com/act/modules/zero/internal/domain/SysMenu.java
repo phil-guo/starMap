@@ -4,6 +4,7 @@ import com.act.core.domain.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.var;
 
 import java.util.UUID;
 
@@ -42,8 +43,8 @@ public class SysMenu extends BaseEntity<String> {
     @TableField("isLeftShow")
     private Boolean isLeftShow = false;
 
-    public int AddOperateSort() {
-        sort += 1;
-        return sort;
+    public int AddOperateSort(int sortMenu) {
+        var newSort = sortMenu + 1;
+        return newSort;
     }
 }

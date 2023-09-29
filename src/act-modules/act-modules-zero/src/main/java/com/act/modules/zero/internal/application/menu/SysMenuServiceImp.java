@@ -158,11 +158,11 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
         return result;
     }
 
-    public AjaxResponse<Object> getAllParentMenus() {
+    public AjaxResponse<Object> getAllParentMenus(int level) {
 
         var data = Table().selectList(new MPJLambdaWrapper<SysMenu>()
                 .select(SysMenu::getName, SysMenu::getId)
-                .eq(SysMenu::getParentId, StringExtensions.UUID_EMPTY)
+                .eq(SysMenu::getLevel, level - 1)
                 .eq(SysMenu::getIsLeftShow, true)
         );
 
@@ -231,7 +231,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
                     .last("limit 1")
                     .orderBy(true, false, SysMenu::getId));
             if (lastMenu != null && (request.getId() == null || request.getId().equals(StringExtensions.UUID_EMPTY)))
-                request.setSort(lastMenu.AddOperateSort());
+                request.setSort(lastMenu.AddOperateSort(lastMenu.getSort()));
 
             if (!StringUtils.isEmpty(request.getKey())) {
                 if (_page.Table().exists(new LambdaQueryWrapper<Page>().eq(Page::getKey, request.getKey())))
@@ -307,7 +307,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
         }
 
         var nodes = Table().selectList(new LambdaQueryWrapper<SysMenu>()
-                .orderByDesc(SysMenu::getCreateTime));
+                .orderByAsc(SysMenu::getCreateTime));
 
         var topNodes = BeanUtilsExtensions.copyListProperties(topNode, SysMenuDTO::new);
         var nodesDTO = BeanUtilsExtensions.copyListProperties(nodes, SysMenuDTO::new);
