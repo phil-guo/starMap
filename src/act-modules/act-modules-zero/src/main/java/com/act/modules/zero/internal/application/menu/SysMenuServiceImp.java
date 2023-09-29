@@ -139,11 +139,11 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
         var result = new ArrayList<MenusRoleResponse>();
         var tree = GetRoleOfMenus(request.getRoleId(), true);
         var home = new MenusRoleResponse();
-        home.setId(StringExtensions.UUID_EMPTY);
-        home.setIcon("el-icon-platform-eleme");
-        home.setPath("/home");
-        home.setTitle("首页");
-        result.add(home);
+//        home.setId(StringExtensions.UUID_EMPTY);
+//        home.setIcon("el-icon-platform-eleme");
+//        home.setPath("/home");
+//        home.setTitle("首页");
+//        result.add(home);
         tree.forEach(item -> {
             var model = new MenusRoleResponse();
             BeanUtilsExtensions.copyProperties(item, model);
@@ -204,7 +204,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
         var data = new SysMenu();
         if (request.getId() != null && !request.getId().equals(StringExtensions.UUID_EMPTY)) {
             data = Table().selectById(request.getId());
-            if (!data.getName().equals(request.getName()) || !data.getKey().equals(request.getKey())) {
+            if (!data.getName().equals(request.getName()) || (!StringUtils.isEmpty(data.getKey())) && !data.getKey().equals(request.getKey())) {
                 var oldPage = _page.Table().selectOne(new LambdaQueryWrapper<Page>()
                         .eq(Page::getKey, data.getKey()));
 
