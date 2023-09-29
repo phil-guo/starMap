@@ -19,9 +19,9 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        this.strictInsertFill(metaObject, "updateTime", () -> LocalDateTime.now(), LocalDateTime.class); // 起始版本 3.3.3(推荐)
-        this.strictInsertFill(metaObject, "updateUser", () -> HttpContextUtils.getUserContext().getName(), String.class); // 起始版本 3.3.3(推荐)
-        this.strictInsertFill(metaObject, "updateUserId", () -> HttpContextUtils.getUserContext().getUserId(), String.class); // 起始版本 3.3.3(推荐)
+        this.strictUpdateFill(metaObject, "updateTime", () -> LocalDateTime.now(), LocalDateTime.class); // 起始版本 3.3.3(推荐)
+        this.strictUpdateFill(metaObject, "updateUser", () -> HttpContextUtils.getUserContext().getName(), String.class); // 起始版本 3.3.3(推荐)
+        this.strictUpdateFill(metaObject, "updateUserId", () -> HttpContextUtils.getUserContext().getUserId(), String.class); // 起始版本 3.3.3(推荐)
     }
 
 

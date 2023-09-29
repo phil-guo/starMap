@@ -23,7 +23,7 @@ public class SysMenuController extends BaseController<SysMenu, SysMenuDTO, SysMe
 
     @ApiOperation(value = "获取菜单功能")
     @GetMapping("getMenuOfOperate")
-    public AjaxResponse<Object> getMenuOfOperate(long id) {
+    public AjaxResponse<Object> getMenuOfOperate(String id) {
         return _menu.getMenuOfOperate(id);
     }
 

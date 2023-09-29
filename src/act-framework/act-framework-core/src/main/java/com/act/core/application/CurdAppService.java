@@ -74,10 +74,8 @@ public abstract class CurdAppService<TEntity extends BaseEntity<String>, TEntity
 
         TEntity entity = null;
 
-        if (request.getId() == null || request.getId() == StringExtensions.UUID_EMPTY) {
+        if (request.getId() == null || request.getId().equals(StringExtensions.UUID_EMPTY)) {
             entity = _entity.newInstance();
-            request.setCreateUser(HttpContextUtils.getUserContext().getName());
-            request.setCreateUserId(HttpContextUtils.getUserContext().getUserId());
             BeanUtils.copyProperties(request, entity);
             beforeCreate(request);
             _repos.insert(entity);
@@ -86,9 +84,7 @@ public abstract class CurdAppService<TEntity extends BaseEntity<String>, TEntity
             entity = _repos.selectById(request.getId());
             if (entity == null)
                 return null;
-            request.setUpdateTime(LocalDateTime.now());
-            request.setUpdateUser(HttpContextUtils.getUserContext().getName());
-            request.setUpdateUserId(HttpContextUtils.getUserContext().getUserId());
+
             BeanUtils.copyProperties(request, entity);
             _repos.updateById(entity);
         }

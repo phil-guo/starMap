@@ -39,7 +39,7 @@ public class SysDictionaryServiceImp extends CurdAppService<SysDataDictionary, S
     @Override
     protected void beforeEdit(SysDictionaryDTO request) {
         var claimsUserInfo = HttpContextUtils.getUserContext();
-        if (request.getIsBasicData() && claimsUserInfo.getUserId() != StringExtensions.UUID_SUPER_ADMIN)
+        if (request.getIsBasicData() && !claimsUserInfo.getUserId().equals(StringExtensions.UUID_SUPER_ADMIN))
             throw new FriendlyException("非超级管理员不能修改基础数据");
     }
 }

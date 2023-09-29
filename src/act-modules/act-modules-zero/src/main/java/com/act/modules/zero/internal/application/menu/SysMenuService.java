@@ -45,5 +45,5 @@ public interface SysMenuService extends ICurdAppService<SysMenu, SysMenuDTO, Sys
      * @return
      * @throws FriendlyException
      */
-    AjaxResponse<Object> getMenuOfOperate(long id) throws FriendlyException;
+    AjaxResponse<Object> getMenuOfOperate(String id) throws FriendlyException;
 }

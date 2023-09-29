@@ -77,7 +77,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
             if (item.getChildren().size() > 0) {
                 item.getChildren().forEach(child -> {
                     var operateModel = new MenuModel();
-                    operateModel.setId(child.getId() + "_"+StringExtensions.UUID_EMPTY);
+                    operateModel.setId(child.getId() + "_" + StringExtensions.UUID_EMPTY);
                     operateModel.setLabel(child.getTitle());
                     model.getChildren().add(operateModel);
                     operates.forEach(op -> {
@@ -110,7 +110,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
             result.getMenuIds().add(item.getId() + "_" + StringExtensions.UUID_EMPTY);
             if (item.getChildren().size() > 0) {
                 item.getChildren().forEach(child -> {
-                    result.getMenuIds().add(child.getId() + "_"+StringExtensions.UUID_EMPTY);
+                    result.getMenuIds().add(child.getId() + "_" + StringExtensions.UUID_EMPTY);
                     var opIds = JSON.parseArray(child.getOperates()).toJavaList(String.class);
                     opIds.forEach(operateId -> {
                         operates.forEach(op -> {
@@ -162,7 +162,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
 
         var data = Table().selectList(new MPJLambdaWrapper<SysMenu>()
                 .select(SysMenu::getName, SysMenu::getId)
-                .eq(SysMenu::getParentId, 99999)
+                .eq(SysMenu::getParentId, StringExtensions.UUID_EMPTY)
                 .eq(SysMenu::getIsLeftShow, true)
         );
 
@@ -178,7 +178,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
         return new AjaxResponse<>(comBoxList);
     }
 
-    public AjaxResponse<Object> getMenuOfOperate(long id) throws FriendlyException {
+    public AjaxResponse<Object> getMenuOfOperate(String id) throws FriendlyException {
         var menu = getById(id);
         if (menu == null)
             throw new FriendlyException("菜单不存在！");
@@ -186,7 +186,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
         if (StringUtils.isEmpty(menu.getOperates()))
             return new AjaxResponse<Object>(new ArrayList<>());
 
-        var operateIds = JSON.parseArray(menu.getOperates()).toJavaList(long.class);
+        var operateIds = JSON.parseArray(menu.getOperates()).toJavaList(String.class);
         var result = _operate.Table()
                 .selectList(new MPJLambdaWrapper<SysOperate>()
                         .select(SysOperate::getName, SysOperate::getUnique)
@@ -230,7 +230,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
             var lastMenu = Table().selectOne(new LambdaQueryWrapper<SysMenu>()
                     .last("limit 1")
                     .orderBy(true, false, SysMenu::getId));
-            if (lastMenu != null && (request.getId() == null || request.getId() == StringExtensions.UUID_EMPTY))
+            if (lastMenu != null && (request.getId() == null || request.getId().equals(StringExtensions.UUID_EMPTY)))
                 request.setSort(lastMenu.AddOperateSort());
 
             if (!StringUtils.isEmpty(request.getKey())) {
@@ -301,7 +301,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
             topNode = Table().selectList(queryWrapper);
         } else {
             topNode = Table().selectList(new LambdaQueryWrapper<SysMenu>()
-                    .eq(SysMenu::getParentId, 99999)
+                    .eq(SysMenu::getParentId, StringExtensions.UUID_EMPTY)
                     .orderByDesc(SysMenu::getCreateTime)
             );
         }
