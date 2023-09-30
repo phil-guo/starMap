@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -63,12 +62,13 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
             listMenus.add(menuModel);
         });
 
-        var tree = listMenus.stream().filter(item -> item.getParentId().equals(StringExtensions.UUID_EMPTY)).collect(Collectors.toList());
+//        List<RoleMenuDTO> tree;
+//        tree = listMenus.stream().filter(item -> item.getParentId().equals(StringExtensions.UUID_EMPTY)).collect(Collectors.toList());
 
         var operates = _operate.Table().selectList(new LambdaQueryWrapper<SysOperate>()
                 .select(SysOperate::getId, SysOperate::getUnique, SysOperate::getName));
 
-        tree.forEach(item -> BuildRoleMenusRecursiveTree(listMenus, item));
+        var tree = buildRoleMenusRecursiveTree(listMenus, StringExtensions.UUID_EMPTY);
         tree.forEach(item -> {
             var model = new MenuModel();
             model.setId(item.getId() + "_" + StringExtensions.UUID_EMPTY);
@@ -105,7 +105,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
             result.getList().add(model);
         });
 
-        var roleMenus = GetRoleOfMenus(request.getRoleId(), null);
+        var roleMenus = getRoleOfMenus(request.getRoleId(), null);
         roleMenus.forEach(item -> {
             result.getMenuIds().add(item.getId() + "_" + StringExtensions.UUID_EMPTY);
             if (item.getChildren().size() > 0) {
@@ -137,13 +137,9 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
 
     public List<MenusRoleResponse> getMenusByRole(MenusRoleRequest request) {
         var result = new ArrayList<MenusRoleResponse>();
-        var tree = GetRoleOfMenus(request.getRoleId(), true);
+        var tree = getRoleOfMenus(request.getRoleId(), true);
         var home = new MenusRoleResponse();
-//        home.setId(StringExtensions.UUID_EMPTY);
-//        home.setIcon("el-icon-platform-eleme");
-//        home.setPath("/home");
-//        home.setTitle("首页");
-//        result.add(home);
+
         tree.forEach(item -> {
             var model = new MenusRoleResponse();
             BeanUtilsExtensions.copyProperties(item, model);
@@ -307,25 +303,29 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
         }
 
         var nodes = Table().selectList(new LambdaQueryWrapper<SysMenu>()
-                .orderByAsc(SysMenu::getCreateTime));
+                .orderByDesc(SysMenu::getCreateTime));
 
         var topNodes = BeanUtilsExtensions.copyListProperties(topNode, SysMenuDTO::new);
         var nodesDTO = BeanUtilsExtensions.copyListProperties(nodes, SysMenuDTO::new);
 
-        topNodes.forEach(item -> BuildMenusRecursiveTree(nodesDTO, item));
+        var tree = createTree(nodesDTO, StringExtensions.UUID_EMPTY);
 
-        return new PagedResultDto(topNodes.size(), topNodes);
+        return new PagedResultDto(topNodes.size(), tree);
     }
 
-    private void BuildMenusRecursiveTree(List<SysMenuDTO> menus, SysMenuDTO topNode) {
+    private ArrayList<SysMenuDTO> createTree(List<SysMenuDTO> menus, String parentId) {
+        var tree = new ArrayList<SysMenuDTO>();
         menus.forEach(item -> {
-            if (item.getParentId().equals(topNode.getId()))
-                topNode.getChildren().add(item);
+            if (item.getParentId().equals(parentId)) {
+                item.setChildren(createTree(menus, item.getId()));
+                tree.add(item);
+            }
         });
+        return tree;
     }
 
-    private List<RoleMenuDTO> GetRoleOfMenus(String roleId, Boolean isLeftShow) {
-        var datas = GetRoleMenu(roleId, isLeftShow);
+    private List<RoleMenuDTO> getRoleOfMenus(String roleId, Boolean isLeftShow) {
+        var datas = getRoleMenu(roleId, isLeftShow);
         var listMenus = new ArrayList<RoleMenuDTO>();
         datas.forEach(item -> {
             var dto = new RoleMenuDTO();
@@ -338,21 +338,23 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
             dto.setKey(item.getKey());
             listMenus.add(dto);
         });
-
-        var tree = listMenus.stream().filter(item -> item.getParentId().equals(StringExtensions.UUID_EMPTY)).collect(Collectors.toList());
-        tree.forEach(item -> BuildRoleMenusRecursiveTree(listMenus, item));
+        var tree = buildRoleMenusRecursiveTree(listMenus, StringExtensions.UUID_EMPTY);
         return tree;
     }
 
-    private void BuildRoleMenusRecursiveTree(List<RoleMenuDTO> list, RoleMenuDTO currentTree) {
+    private List<RoleMenuDTO> buildRoleMenusRecursiveTree(List<RoleMenuDTO> list, String parentId) {
+        var currentTree = new ArrayList<RoleMenuDTO>();
         list.forEach(item ->
         {
-            if (item.getParentId().equals(currentTree.getId()))
-                currentTree.getChildren().add(item);
+            if (item.getParentId().equals(parentId)) {
+                item.setChildren(buildRoleMenusRecursiveTree(list, item.getId()));
+                currentTree.add(item);
+            }
         });
+        return currentTree;
     }
 
-    private List<SysMenu> GetRoleMenu(String roleId, Boolean isLeftShow) {
+    private List<SysMenu> getRoleMenu(String roleId, Boolean isLeftShow) {
         var menus = new ArrayList<SysMenu>();
         var roleMenusByRole = _roleMenu.Table().selectList(new MPJLambdaWrapper<SysRoleMenu>()
                 .eq(SysRoleMenu::getRoleId, roleId)
