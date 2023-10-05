@@ -45,13 +45,9 @@ public class BaseController<TEntity extends BaseEntity<String>, TEntityDto exten
     @ApiOperation(value = "批量删除")
     @PostMapping("removes")
     public AjaxResponse<Object> removes(@RequestBody RemovesDTO ids) {
-        try {
-            ids.getIds().forEach(id -> {
-                _crud.delete(id);
-            });
-            return new AjaxResponse<>("删除成功");
-        } catch (Exception exception) {
-            return new AjaxResponse<>(exception.getMessage());
-        }
+        ids.getIds().forEach(id -> {
+            _crud.delete(id);
+        });
+        return new AjaxResponse<>("删除成功");
     }
 }

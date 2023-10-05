@@ -65,30 +65,30 @@ public class SysOperateServiceImp extends CurdAppService<SysOperate, SysOperateD
     public MenuOfOperateResponse getMenuOfOperate(MenuOfOperateRequest request) {
 
         var idNos = new MenuOfOperateResponse();
-        var roleMenu = this._roleMenu.Table()
+        var roleMenu = _roleMenu.Table()
                 .selectOne(new LambdaQueryWrapper<SysRoleMenu>()
                         .eq(SysRoleMenu::getRoleId, request.getRoleId())
                         .eq(SysRoleMenu::getMenuId, request.getMenuId()));
 
-        List<Long> roleMenuOperates;
+        List<String> roleMenuOperates;
 
         if (roleMenu == null)
             roleMenuOperates = new ArrayList<>();
         else {
-            roleMenuOperates = JSON.parseArray(roleMenu.getOperates()).toJavaList(Long.class);
+            roleMenuOperates = JSON.parseArray(roleMenu.getOperates()).toJavaList(String.class);
         }
 
         var menu = this._menu.Table().selectOne(new LambdaQueryWrapper<SysMenu>()
                 .eq(SysMenu::getId, request.getMenuId()));
 
-        List<Long> menuOperates;
+        List<String> menuOperates;
         if (menu == null)
             menuOperates = new ArrayList<>();
         else {
-            menuOperates = JSON.parseArray(menu.getOperates()).toJavaList(Long.class);
+            menuOperates = JSON.parseArray(menu.getOperates()).toJavaList(String.class);
         }
         //取差集
-        List<Long> operates = menuOperates.stream()
+        List<String> operates = menuOperates.stream()
                 .filter(roleMenuOperates::contains)
                 .collect(Collectors.toList());
 

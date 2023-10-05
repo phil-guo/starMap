@@ -65,92 +65,15 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
         var operates = _operate.Table().selectList(new LambdaQueryWrapper<SysOperate>()
                 .select(SysOperate::getId, SysOperate::getUnique, SysOperate::getName));
 
-//        var tree = buildRoleMenusRecursiveTree(listMenus, StringExtensions.UUID_EMPTY);
-//        tree.forEach(item -> {
-//            var model = new MenuModel();
-//            model.setId(item.getId() + "_" + StringExtensions.UUID_EMPTY);
-//            model.setLabel(item.getTitle());
-//
-//            if (item.getChildren().size() > 0) {
-//                item.getChildren().forEach(child -> {
-//                    var operateModel = new MenuModel();
-//                    operateModel.setId(child.getId() + "_" + StringExtensions.UUID_EMPTY);
-//                    operateModel.setLabel(child.getTitle());
-//                    model.getChildren().add(operateModel);
-//                    operates.forEach(op -> {
-//                        var opIds = JSON.parseArray(child.getOperates()).toJavaList(String.class);
-//                        if (opIds.contains(op.getId())) {
-//                            var opModel = new MenuModel();
-//                            opModel.setId(child.getId() + "_" + op.getId());
-//                            opModel.setLabel(op.getName());
-//                            operateModel.getChildren().add(opModel);
-//                        }
-//                    });
-//                });
-//            } else {
-//                operates.forEach(op -> {
-//                    var opIds = JSON.parseArray(item.getOperates()).toJavaList(String.class);
-//                    if (opIds.contains(op.getId())) {
-//                        var opModel = new MenuModel();
-//                        opModel.setId(item.getId() + "_" + op.getId());
-//                        opModel.setLabel(op.getName());
-//                        model.getChildren().add(opModel);
-//                    }
-//                });
-//            }
-//
-//            result.getList().add(model);
-//        });
-
         result.setList(buildComposeMeunTree(listMenus, StringExtensions.UUID_EMPTY, operates));
-
-        var roleMenus = getRoleOfMenus(request.getRoleId(), null);
-        roleMenus.forEach(item -> {
-            result.getMenuIds().add(item.getId() + "_" + StringExtensions.UUID_EMPTY);
-            if (item.getChildren().size() > 0) {
-                item.getChildren().forEach(child -> {
-                    result.getMenuIds().add(child.getId() + "_" + StringExtensions.UUID_EMPTY);
-                    var opIds = JSON.parseArray(child.getOperates()).toJavaList(String.class);
-                    opIds.forEach(operateId -> {
-                        operates.forEach(op -> {
-                            if (!op.getId().equals(operateId))
-                                return;
-                            result.getMenuIds().add(child.getId() + "_" + op.getId());
-                        });
-                    });
-                });
-            } else {
-                var opIds = JSON.parseArray(item.getOperates()).toJavaList(String.class);
-                opIds.forEach(operateId -> {
-                    operates.forEach(op -> {
-                        if (!op.getId().equals(operateId))
-                            return;
-                        result.getMenuIds().add(item.getId() + "_" + op.getId());
-                    });
-                });
-            }
-        });
-
+        result.setMenuIds(buildMenudIds(request.getRoleId(), null, operates));
         return result;
     }
 
-    public List<MenusRoleResponse> getMenusByRole(MenusRoleRequest request) {
-        var result = new ArrayList<MenusRoleResponse>();
-        var tree = getRoleOfMenus(request.getRoleId(), true);
-        var home = new MenusRoleResponse();
 
-        tree.forEach(item -> {
-            var model = new MenusRoleResponse();
-            BeanUtilsExtensions.copyProperties(item, model);
-            if (item.getChildren().size() > 0)
-                item.getChildren().forEach(child -> {
-                    var childModel = new MenusRoleResponse();
-                    BeanUtilsExtensions.copyProperties(child, childModel);
-                    model.getChildren().add(childModel);
-                });
-            result.add(model);
-        });
-        return result;
+    public List<RoleMenuDTO> getMenusByRole(MenusRoleRequest request) {
+        var tree = getRoleOfMenus(request.getRoleId(), true);
+        return tree;
     }
 
     public AjaxResponse<Object> getAllParentMenus(int level) {
@@ -353,6 +276,48 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
         return currentTree;
     }
 
+    private List<String> buildMenudIds(String roleId, Boolean isLeftShow, List<SysOperate> operates) {
+        var datas = getRoleMenu(roleId, isLeftShow);
+        var listMenus = new ArrayList<RoleMenuDTO>();
+        datas.forEach(item -> {
+            var dto = new RoleMenuDTO();
+            dto.setParentId(item.getParentId());
+            dto.setId(item.getId());
+            dto.setTitle(item.getName());
+            dto.setIcon(item.getIcon());
+            dto.setPath(item.getUrl());
+            dto.setOperates(item.getOperates());
+            dto.setKey(item.getKey());
+            listMenus.add(dto);
+        });
+        var menuIds = new ArrayList<String>();
+        buildMenuIdsRecursiveTree(listMenus, StringExtensions.UUID_EMPTY, operates, menuIds);
+        return menuIds;
+    }
+
+    private List<RoleMenuDTO> buildMenuIdsRecursiveTree(List<RoleMenuDTO> list, String parentId, List<SysOperate> operates, List<String> result) {
+        var currentMenuIdOperateIds = new ArrayList<RoleMenuDTO>();
+        list.forEach(item ->
+        {
+            if (item.getParentId().equals(parentId)) {
+                result.add(item.getId() + "_" + StringExtensions.UUID_EMPTY);
+
+                item.setChildren(buildMenuIdsRecursiveTree(list, item.getId(), operates, result));
+
+                var opIds = JSON.parseArray(item.getOperates()).toJavaList(String.class);
+                opIds.forEach(operateId -> {
+                    operates.forEach(op -> {
+                        if (!op.getId().equals(operateId))
+                            return;
+                        result.add(item.getId() + "_" + op.getId());
+                    });
+                });
+            }
+        });
+
+        return currentMenuIdOperateIds;
+    }
+
     private List<SysMenu> getRoleMenu(String roleId, Boolean isLeftShow) {
         var menus = new ArrayList<SysMenu>();
         var roleMenusByRole = _roleMenu.Table().selectList(new MPJLambdaWrapper<SysRoleMenu>()
@@ -383,7 +348,7 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
     private List<MenuModel> buildComposeMeunTree(List<RoleMenuDTO> roleMenus, String parentId, List<SysOperate> operates) {
         var currentTree = new ArrayList<MenuModel>();
         roleMenus.forEach(item -> {
-            if(item.getParentId().equals(parentId)){
+            if (item.getParentId().equals(parentId)) {
                 var model = new MenuModel();
                 model.setId(item.getId() + "_" + StringExtensions.UUID_EMPTY);
                 model.setLabel(item.getTitle());
@@ -400,53 +365,8 @@ public class SysMenuServiceImp extends CurdAppService<SysMenu, SysMenuDTO, SysMe
                     }
                 });
 
-//                item.getChildren().forEach(child -> {
-//                    var operateModel = new MenuModel();
-//                    operateModel.setId(child.getId() + "_" + StringExtensions.UUID_EMPTY);
-//                    operateModel.setLabel(child.getTitle());
-//                    operates.forEach(op -> {
-//                        var opIds = JSON.parseArray(child.getOperates()).toJavaList(String.class);
-//                        if (opIds.contains(op.getId())) {
-//                            var opModel = new MenuModel();
-//                            opModel.setId(child.getId() + "_" + op.getId());
-//                            opModel.setLabel(op.getName());
-//                            operateModel.getChildren().add(opModel);
-//                        }
-//                    });
-//                });
-
                 currentTree.add(model);
             }
-
-//            if (item.getChildren().size() > 0) {
-//                item.getChildren().forEach(child -> {
-//                    var operateModel = new MenuModel();
-//                    operateModel.setId(child.getId() + "_" + StringExtensions.UUID_EMPTY);
-//                    operateModel.setLabel(child.getTitle());
-//                    model.setChildren(buildComposeMeunTree(roleMenus, operates));
-//                    currentTree.add(operateModel);
-//                    operates.forEach(op -> {
-//                        var opIds = JSON.parseArray(child.getOperates()).toJavaList(String.class);
-//                        if (opIds.contains(op.getId())) {
-//                            var opModel = new MenuModel();
-//                            opModel.setId(child.getId() + "_" + op.getId());
-//                            opModel.setLabel(op.getName());
-//                            operateModel.getChildren().add(opModel);
-//                        }
-//                    });
-//                });
-//            } else {
-//                operates.forEach(op -> {
-//                    var opIds = JSON.parseArray(item.getOperates()).toJavaList(String.class);
-//                    if (opIds.contains(op.getId())) {
-//                        var opModel = new MenuModel();
-//                        opModel.setId(item.getId() + "_" + op.getId());
-//                        opModel.setLabel(op.getName());
-//                        model.getChildren().add(opModel);
-//                    }
-//                });
-//            }
-
         });
 
         return currentTree;

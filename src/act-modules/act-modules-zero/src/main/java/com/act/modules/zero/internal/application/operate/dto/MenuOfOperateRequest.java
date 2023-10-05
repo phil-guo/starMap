@@ -6,8 +6,8 @@ import java.util.UUID;
 
 @Data
 public class MenuOfOperateRequest {
-    private UUID roleId;
-    private UUID menuId;
+    private String roleId;
+    private String menuId;
 }
 
 

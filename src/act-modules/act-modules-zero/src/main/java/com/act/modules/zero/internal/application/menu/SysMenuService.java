@@ -4,6 +4,7 @@ import com.act.modules.zero.internal.application.menu.dto.MenusRoleRequest;
 import com.act.modules.zero.internal.application.menu.dto.MenusRoleResponse;
 import com.act.modules.zero.internal.application.menu.dto.RoleMenuResponse;
 import com.act.modules.zero.internal.application.menu.dto.SysMenuDTO;
+import com.act.modules.zero.internal.application.role.dto.RoleMenuDTO;
 import com.act.modules.zero.internal.domain.SysMenu;
 import com.act.modules.zero.internal.mapper.SysMenuMapper;
 import com.act.core.application.ICurdAppService;
@@ -29,7 +30,7 @@ public interface SysMenuService extends ICurdAppService<SysMenu, SysMenuDTO, Sys
      * @param request
      * @return
      */
-    List<MenusRoleResponse> getMenusByRole(MenusRoleRequest request);
+    List<RoleMenuDTO> getMenusByRole(MenusRoleRequest request);
 
     /**
      * 获取所有的父级菜单
