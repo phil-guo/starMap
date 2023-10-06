@@ -24,6 +24,10 @@ public class WrapperExtensions {
                 val = oldVal;
             }
 
+            boolean isNumeric = oldVal.matches("\\d+");
+            if (isNumeric)
+                val = Integer.parseInt(oldVal);
+
             if (item.getOperate().equals("Like")) {
                 queryWrapper.like(item.getField(), val);
             }
